@@ -1,0 +1,98 @@
+{% load static %}
+{% load form_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Log In | TravelMate</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 360px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+    }
+
+    .container h2 {
+      text-align: center;
+      color: #1d3c78;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .input-field {
+      border-radius: 30px;
+      padding: 14px;
+      width: 100%;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .container form button {
+      background-color: #2a7de1;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 14px;
+      width: 100%;
+      border-radius: 30px;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .container form button:hover {
+      background-color: #1c5cb3;
+    }
+
+    .footer-link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .footer-link a {
+      color: #2a7de1;
+      text-decoration: none;
+    }
+
+    .footer-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Welcome Back</h2>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        {{ field.errors }}
+        <div>{{ field|add_class:"input-field" }}</div>
+      {% endfor %}
+      <button type="submit">Log In</button>
+    </form>
+    <div class="footer-link">
+      Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
+    </div>
+  </div>
+
+</body>
+</html>
