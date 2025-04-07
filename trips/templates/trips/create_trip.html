@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create a Trip | TravelMate</title>
+</head>
+<body>
+  <h2>Create a Trip</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Trip</button>
+  </form>
+  <a href="{% url 'trip_list' %}">Back to Trip List</a>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Trips | TravelMate</title>
+</head>
+<body>
+  <h2>My Trips</h2>
+  <ul>
+    {% for trip in trips %}
+      <li>
+        <strong>{{ trip.name }}</strong> – {{ trip.destination }} ({{ trip.start_date }} to {{ trip.end_date }})
+      </li>
+    {% empty %}
+      <li>No trips yet. <a href="{% url 'create_trip' %}">Create one</a>!</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'create_trip' %}">+ Add New Trip</a>
+</body>
+</html>
