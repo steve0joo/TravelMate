@@ -3,14 +3,19 @@ from django.contrib.auth import login, authenticate, logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.contrib.auth import get_backends
 
 def signup_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('profile')
+
+            backend = get_backends()[0]  # Default to first backend
+            login(request, user, backend=backend.__class__.__module__ + "." + backend.__class__.__name__)
+
+            return redirect('trip_list')  # or wherever you want to go
     else:
         form = CustomUserCreationForm()
     return render(request, 'users/signup.html', {'form': form})
