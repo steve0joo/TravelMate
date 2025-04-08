@@ -1,20 +1,101 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>My Trips | TravelMate</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 600px;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #1d3c78;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background: #f4f8ff;
+      margin-bottom: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border-left: 4px solid #2a7de1;
+    }
+
+    .no-trips {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .add-trip {
+      display: block;
+      text-align: center;
+      background-color: #2a7de1;
+      color: white;
+      padding: 14px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .add-trip:hover {
+      background-color: #1c5cb3;
+    }
+
+    .trip-name {
+      font-weight: bold;
+    }
+
+    .trip-date {
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
+
+<div class="container">
   <h2>My Trips</h2>
-  <ul>
-    {% for trip in trips %}
-      <li>
-        <strong>{{ trip.name }}</strong> – {{ trip.destination }} ({{ trip.start_date }} to {{ trip.end_date }})
-      </li>
-    {% empty %}
-      <li>No trips yet. <a href="{% url 'create_trip' %}">Create one</a>!</li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'create_trip' %}">+ Add New Trip</a>
+
+  {% if trips %}
+    <ul>
+      {% for trip in trips %}
+        <li>
+          <span class="trip-name">{{ trip.name }}</span> - {{ trip.destination }}<br>
+          <span class="trip-date">{{ trip.start_date }} to {{ trip.end_date }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="no-trips">No trips yet. <a href="{% url 'create_trip' %}">Create one!</a></div>
+  {% endif %}
+
+  <a href="{% url 'create_trip' %}" class="add-trip">+ Add New Trip</a>
+</div>
+
 </body>
 </html>

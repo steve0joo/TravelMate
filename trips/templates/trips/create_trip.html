@@ -1,16 +1,114 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Create a Trip | TravelMate</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 360px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+    }
+
+    .container h2 {
+      text-align: center;
+      color: #1d3c78;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .input-field {
+      border-radius: 30px;
+      padding: 14px;
+      width: 100%;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .label {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 5px;
+      margin-top: 10px;
+      display: block;
+      color: #1d3c78;
+    }
+
+    .btn {
+      background-color: #2a7de1;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 14px;
+      width: 100%;
+      border-radius: 30px;
+      font-size: 16px;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #1c5cb3;
+    }
+
+    .footer-link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .footer-link a {
+      color: #2a7de1;
+      text-decoration: none;
+    }
+
+    .footer-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h2>Create a Trip</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Trip</button>
-  </form>
-  <a href="{% url 'trip_list' %}">Back to Trip List</a>
+
+  <div class="container">
+    <h2>Create a Trip</h2>
+    <form method="post">
+      {% csrf_token %}
+
+      <input type="text" name="name" placeholder="Trip Name" class="input-field" required>
+      <input type="text" name="destination" placeholder="Destination" class="input-field" required>
+
+      <label class="label">Start Date</label>
+      <input type="date" name="start_date" class="input-field" required>
+
+      <label class="label">End Date</label>
+      <input type="date" name="end_date" class="input-field" required>
+
+      <button type="submit" class="btn">Save Trip</button>
+    </form>
+
+    <div class="footer-link">
+      <a href="{% url 'trip_list' %}">Back to Trip List</a>
+    </div>
+  </div>
+
 </body>
 </html>
