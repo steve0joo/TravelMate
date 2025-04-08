@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Trip | TravelMate</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+    }
+
+    h2 {
+      color: #c0392b;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    .button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .confirm {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .cancel {
+      background-color: #bdc3c7;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Are you sure you want to delete "{{ trip.name }}"?</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="button confirm">Yes, Delete</button>
+      <a href="{% url 'trip_detail' trip.id %}" class="button cancel">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>

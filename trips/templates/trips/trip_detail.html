@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Trips | TravelMate</title>
+  <title>{{ trip.name }} | Trip Detail</title>
   <style>
     body {
       margin: 0;
@@ -30,27 +30,12 @@
       margin-bottom: 20px;
     }
 
-    .trip {
-      border: 1px solid #ccc;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 15px;
-      background-color: #f9f9f9;
+    .info {
+      font-size: 15px;
+      margin-bottom: 10px;
     }
 
-    .trip a {
-      text-decoration: none;
-      color: #1d3c78;
-      font-weight: bold;
-    }
-
-    .trip small {
-      display: block;
-      color: #555;
-      margin-top: 5px;
-    }
-
-    .button {
+    a.button {
       display: inline-block;
       margin-top: 20px;
       padding: 12px 25px;
@@ -62,27 +47,33 @@
       transition: background-color 0.3s;
     }
 
-    .button:hover {
+    a.button:hover {
       background-color: #1c5cb3;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>My Trips</h2>
+    <h2>{{ trip.name }}</h2>
+    <p class="info"><strong>Destination:</strong> {{ trip.destination }}</p>
+    <p class="info"><strong>Start Date:</strong> {{ trip.start_date }}</p>
+    <p class="info"><strong>End Date:</strong> {{ trip.end_date }}</p>
 
-    {% for trip in trips %}
-      <a href="{% url 'trip_detail' trip.id %}" style="text-decoration: none; color: inherit;">
-        <div class="trip">
-          <span>{{ trip.name }}</span>
-          <small>{{ trip.destination }} | {{ trip.start_date }} to {{ trip.end_date }}</small>
-        </div>
-      </a>
-    {% empty %}
-      <p>You have no trips yet.</p>
-    {% endfor %}
+    <form method="post" action="{% url 'delete_trip' trip.id %}" style="margin-top: 20px;">
+      {% csrf_token %}
+      <button type="submit" style="
+        padding: 10px 20px;
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 10px;
+      ">🗑 Delete Trip</button>
+    </form>
 
-    <a href="{% url 'profile' %}" class="button">⬅ Back to Profile</a>
+    <a href="{% url 'trip_list' %}" class="button">⬅ Back to Trip List</a>
   </div>
 </body>
 </html>
