@@ -1,4 +1,18 @@
 <h2>Welcome, {{ user.username }}!</h2>
 <p>Email: {{ user.email }}</p>
 <p>Bio: {{ user.bio }}</p>
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{% url 'create_trip' %}" style="
+      display: inline-block;
+      padding: 12px 25px;
+      background-color: #2a7de1;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    " onmouseover="this.style.backgroundColor='#1c5cb3'" onmouseout="this.style.backgroundColor='#2a7de1'">
+      ➕ Add New Trip
+    </a>
+  </div>
 <a href="{% url 'logout' %}">Log out</a>
