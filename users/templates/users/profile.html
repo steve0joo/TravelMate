@@ -1,18 +1,88 @@
-<h2>Welcome, {{ user.username }}!</h2>
-<p>Email: {{ user.email }}</p>
-<p>Bio: {{ user.bio }}</p>
-<div style="text-align: center; margin-top: 30px;">
-    <a href="{% url 'create_trip' %}" style="
-      display: inline-block;
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile | TravelMate</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 360px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .container h2 {
+      color: #1d3c78;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .info {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .button {
+      display: block;
+      margin: 15px auto;
       padding: 12px 25px;
       background-color: #2a7de1;
       color: white;
       text-decoration: none;
       border-radius: 25px;
       font-weight: bold;
+      font-size: 14px;
       transition: background-color 0.3s;
-    " onmouseover="this.style.backgroundColor='#1c5cb3'" onmouseout="this.style.backgroundColor='#2a7de1'">
-      ➕ Add New Trip
-    </a>
+    }
+
+    .button:hover {
+      background-color: #1c5cb3;
+    }
+
+    .logout {
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .logout a {
+      color: #2a7de1;
+      text-decoration: none;
+    }
+
+    .logout a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Welcome, {{ user.username }}!</h2>
+    <p class="info"><strong>Email:</strong> {{ user.email }}</p>
+    {% if user.bio %}
+    <p class="info"><strong>Bio:</strong> {{ user.bio }}</p>
+    {% endif %}
+
+    <a href="{% url 'create_trip' %}" class="button">➕ Add New Trip</a>
+
+    <div class="logout">
+      <a href="{% url 'logout' %}">Log out</a>
+    </div>
   </div>
-<a href="{% url 'logout' %}">Log out</a>
+
+</body>
+</html>
