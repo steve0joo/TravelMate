@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h2>🧳 Packing List for "{{ trip.name }}"</h2>
+  <ul>
+    <li>✅ Passport / ID</li>
+    <li>✅ Travel Tickets</li>
+    <li>✅ Clothes (weather appropriate)</li>
+    <li>✅ Toiletries</li>
+    <li>✅ Charger / Power Bank</li>
+    <li>✅ Medications</li>
+    <li>✅ Sunglasses / Sunscreen</li>
+    <li>✅ Snacks / Water Bottle</li>
+    <li>✅ Guidebook / Itinerary</li>
+    <li>✅ Emergency Contacts</li>
+  </ul>
+  <a href="{% url 'trip_detail' trip.id %}" class="button">🔙 Back to Trip</a>
+</div>
+{% endblock %}

@@ -40,3 +40,8 @@ def trip_list(request):
 def trip_detail(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
     return render(request, 'trips/trip_detail.html', {'trip': trip})
+
+@login_required
+def packing_list(request, trip_id):
+    trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+    return render(request, 'trips/packing_list.html', {'trip': trip})

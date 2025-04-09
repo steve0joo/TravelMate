@@ -6,4 +6,5 @@ urlpatterns = [
     path('list/', views.trip_list, name='trip_list'),
     path('<int:trip_id>/', views.trip_detail, name='trip_detail'),
     path('<int:trip_id>/delete/', views.delete_trip, name='delete_trip'),
+    path('<int:trip_id>/packing/', views.packing_list, name='packing_list'),
 ]
