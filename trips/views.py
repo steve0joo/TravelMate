@@ -59,20 +59,25 @@ def packing_list(request, trip_id):
 @login_required
 def update_packing_list(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
-    packed_items = request.session.get(f"packed_{trip_id}", [])
 
-    if request.method == "POST":
-        if 'delete_item' in request.POST:
-            delete_item = request.POST['delete_item']
-            if delete_item in packed_items:
-                packed_items.remove(delete_item)
-            trip_items = generate_packing_list(trip)
-            trip_items.remove(delete_item)
-            request.session[f"trip_items_{trip_id}"] = trip_items
+    if request.method == 'POST':
+        packed_items = request.POST.getlist('packed_items')
+        delete_item = request.POST.get('delete_item')
+        new_item = request.POST.get('new_item')
+
+        # Delete item if requested
+        if delete_item:
+            trip.packing_items.filter(name=delete_item).delete()
+
+        # Add a new custom item
+        elif new_item:
+            if not trip.packing_items.filter(name=new_item).exists():
+                PackingItem.objects.create(trip=trip, name=new_item)
+
         else:
-            packed_items = request.POST.getlist('packed_items')
-        
-        request.session[f"packed_{trip_id}"] = packed_items
-        return redirect('packing_list', trip_id=trip.id)
+            # Update packed state for all items
+            for item in trip.packing_items.all():
+                item.is_packed = item.name in packed_items
+                item.save()
 
     return redirect('packing_list', trip_id=trip.id)

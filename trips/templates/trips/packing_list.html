@@ -16,10 +16,10 @@
         <li style="margin-bottom: 10px;">
           <label style="display: flex; align-items: center; justify-content: space-between;">
             <span>
-              <input type="checkbox" name="packed_items" value="{{ item }}" {% if item in packed_items %}checked{% endif %}>
-              {{ item }}
+              <input type="checkbox" name="packed_items" value="{{ item.name }}" {% if item.is_packed %}checked{% endif %}>
+              {{ item.name }}
             </span>
-            <button type="submit" name="delete_item" value="{{ item }}" class="btn" style="margin-left: 10px;">🗑️</button>
+            <button type="submit" name="delete_item" value="{{ item.name }}" class="btn" style="margin-left: 10px;">🗑️</button>
           </label>
         </li>
       {% endfor %}
