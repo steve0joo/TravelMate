@@ -1,4 +1,5 @@
 {% load static %}
+{% load form_tags %}
 {% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
@@ -83,32 +84,30 @@
     <h2>Welcome Back</h2>
     <form method="post">
       {% csrf_token %}
-
-      <input type="text" name="login" class="input-field" placeholder="Username" required>
-      <input type="password" name="password" class="input-field" placeholder="Password" required>
-
+      {% for field in form %}
+        {{ field.errors }}
+        <div>{{ field|add_class:"input-field" }}</div>
+      {% endfor %}
       <button type="submit">Log In</button>
     </form>
-
     <div class="footer-link">
       Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
     </div>
-
     <div style="text-align:center; margin: 20px 0;">OR</div>
 
-    <a href="{% provider_login_url 'google' %}">
-      <button type="button" style="background:#fff; border:1px solid #ccc; width:100%; padding:12px; margin-bottom:10px;">
-        <img src="{% static 'icons/google-icon.png' %}" style="height:20px; vertical-align:middle; margin-right:10px;">
-        Sign in with Google
-      </button>
-    </a>
+<a href="{% provider_login_url 'google' %}">
+  <button type="button" style="background:#fff; border:1px solid #ccc; width:100%; padding:12px; margin-bottom:10px;">
+    <img src="{% static 'icons/google-icon.png' %}" style="height:20px; vertical-align:middle; margin-right:10px;">
+    Sign in with Google
+  </button>
+</a>
 
-    <a href="{% provider_login_url 'github' %}">
-      <button type="button" style="background:#333; color:white; width:100%; padding:12px;">
-        <img src="{% static 'icons/github-icon.png' %}" style="height:20px; vertical-align:middle; margin-right:10px;">
-        Sign in with GitHub
-      </button>
-    </a>
+<a href="{% provider_login_url 'github' %}">
+  <button type="button" style="background:#333; color:white; width:100%; padding:12px;">
+    <img src="{% static 'icons/github-icon.png' %}" style="height:20px; vertical-align:middle; margin-right:10px;">
+    Sign in with GitHub
+  </button>
+</a>
   </div>
 
 </body>
