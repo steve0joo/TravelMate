@@ -1,37 +1,122 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes checkPop {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .fade-in {
+    animation: fadeInUp 0.5s ease both;
+  }
+
+  .custom-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #2a7de1;
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .custom-checkbox:checked {
+    background-color: #2a7de1;
+    animation: checkPop 0.2s ease;
+  }
+
+  .custom-checkbox:checked::after {
+    content: '✔';
+    color: white;
+    position: absolute;
+    font-size: 14px;
+    top: 0px;
+    left: 4px;
+  }
+
+  .input-field {
+    flex: 1;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+
+  .add-btn, .update-btn, .back-btn {
+    background-color: #2a7de1;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .add-btn:hover, .update-btn:hover, .back-btn:hover {
+    background-color: #195cb1;
+  }
+
+  .packing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: #f4faff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    animation: fadeInUp 0.5s ease;
+  }
+
+  .btn-icon {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-icon:hover {
+    transform: scale(1.2);
+  }
+</style>
+
 <div class="container" style="max-width: 480px; margin: auto; background: #ffffff; padding: 30px 25px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);">
   <h2 style="text-align: center; color: #1d3c78; margin-bottom: 20px; font-weight: 700;">Packing List for "{{ trip.name }}"</h2>
-  
-  <form method="post" style="margin-bottom: 20px;">
+
+  <form method="post" style="display: flex; gap: 10px; margin-bottom: 25px;">
     {% csrf_token %}
-    <input type="text" name="new_item" placeholder="Add custom item..." class="input-field" />
-    <button type="submit" class="btn">Add Item</button>
+    <input type="text" name="new_item" placeholder="Add custom item..." class="input-field">
+    <button type="submit" class="add-btn">➕</button>
   </form>
 
   <form method="post" action="{% url 'update_packing_list' trip.id %}">
     {% csrf_token %}
     <ul style="list-style: none; padding: 0;">
       {% for item in items %}
-        <li style="margin-bottom: 10px;">
-          <label style="display: flex; align-items: center; justify-content: space-between;">
-            <span>
-              <input type="checkbox" name="packed_items" value="{{ item.name }}" {% if item.is_packed %}checked{% endif %}>
-              {{ item.name }}
-            </span>
-            <button type="submit" name="delete_item" value="{{ item.name }}" class="btn" style="margin-left: 10px;">🗑️</button>
-          </label>
-        </li>
+      <li class="packing-item fade-in">
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" class="custom-checkbox" name="packed_items" value="{{ item.name }}" {% if item.is_packed %}checked{% endif %}>
+          {{ item.name }}
+        </label>
+        <button type="submit" name="delete_item" value="{{ item.name }}" class="btn-icon">🗑️</button>
+      </li>
       {% endfor %}
     </ul>
-    <button type="submit" class="btn" style="margin-top: 10px;">Update List</button>
+    <button type="submit" class="update-btn" style="width: 100%; margin-top: 20px;">✅ Update List</button>
   </form>
 
-  <div style="text-align: center; margin-top: 20px;">
+  <div style="text-align: center; margin-top: 30px;">
     <a href="{% url 'trip_detail' trip.id %}">
-      <button type="button" class="btn" style="background-color: #2a7de1; color: white; border: none; font-weight: bold; cursor: pointer; padding: 12px 24px; border-radius: 30px; font-size: 16px;">
-        🔙 Back to Trip
-      </button>
+      <button type="button" class="back-btn">🔙 Back to Trip</button>
     </a>
   </div>
 </div>
