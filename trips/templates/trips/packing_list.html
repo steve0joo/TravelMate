@@ -1,19 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-  <h2>🧳 Packing List for "{{ trip.name }}"</h2>
-  <ul>
-    <li>✅ Passport / ID</li>
-    <li>✅ Travel Tickets</li>
-    <li>✅ Clothes (weather appropriate)</li>
-    <li>✅ Toiletries</li>
-    <li>✅ Charger / Power Bank</li>
-    <li>✅ Medications</li>
-    <li>✅ Sunglasses / Sunscreen</li>
-    <li>✅ Snacks / Water Bottle</li>
-    <li>✅ Guidebook / Itinerary</li>
-    <li>✅ Emergency Contacts</li>
-  </ul>
-  <a href="{% url 'trip_detail' trip.id %}" class="button">🔙 Back to Trip</a>
+<div class="container" style="max-width: 480px; margin: auto; background: #ffffff; padding: 30px 25px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);">
+  <h2 style="text-align: center; color: #1d3c78; margin-bottom: 20px; font-weight: 700;">Packing List for "{{ trip.name }}"</h2>
+  
+  <form method="post" style="margin-bottom: 20px;">
+    {% csrf_token %}
+    <input type="text" name="new_item" placeholder="Add custom item..." class="input-field" />
+    <button type="submit" class="btn">Add Item</button>
+  </form>
+
+  <form method="post" action="{% url 'update_packing_list' trip.id %}">
+    {% csrf_token %}
+    <ul style="list-style: none; padding: 0;">
+      {% for item in items %}
+        <li style="margin-bottom: 10px;">
+          <label style="display: flex; align-items: center; justify-content: space-between;">
+            <span>
+              <input type="checkbox" name="packed_items" value="{{ item }}" {% if item in packed_items %}checked{% endif %}>
+              {{ item }}
+            </span>
+            <button type="submit" name="delete_item" value="{{ item }}" class="btn" style="margin-left: 10px;">🗑️</button>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+    <button type="submit" class="btn" style="margin-top: 10px;">Update List</button>
+  </form>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <a href="{% url 'trip_detail' trip.id %}">
+      <button type="button" class="btn" style="background-color: #2a7de1; color: white; border: none; font-weight: bold; cursor: pointer; padding: 12px 24px; border-radius: 30px; font-size: 16px;">
+        🔙 Back to Trip
+      </button>
+    </a>
+  </div>
 </div>
 {% endblock %}

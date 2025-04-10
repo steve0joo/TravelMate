@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Trip
+
+from trips.utils import generate_packing_list
+from .models import PackingItem, Trip
 from .forms import TripForm
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
@@ -44,4 +46,33 @@ def trip_detail(request, trip_id):
 @login_required
 def packing_list(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
-    return render(request, 'trips/packing_list.html', {'trip': trip})
+    generate_packing_list(trip)
+
+    if request.method == 'POST':
+        new_item = request.POST.get('new_item')
+        if new_item:
+            PackingItem.objects.create(trip=trip, name=new_item)
+
+    items = trip.packing_items.all().order_by('is_packed', 'name')
+    return render(request, 'trips/packing_list.html', {'trip': trip, 'items': items})
+
+@login_required
+def update_packing_list(request, trip_id):
+    trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+    packed_items = request.session.get(f"packed_{trip_id}", [])
+
+    if request.method == "POST":
+        if 'delete_item' in request.POST:
+            delete_item = request.POST['delete_item']
+            if delete_item in packed_items:
+                packed_items.remove(delete_item)
+            trip_items = generate_packing_list(trip)
+            trip_items.remove(delete_item)
+            request.session[f"trip_items_{trip_id}"] = trip_items
+        else:
+            packed_items = request.POST.getlist('packed_items')
+        
+        request.session[f"packed_{trip_id}"] = packed_items
+        return redirect('packing_list', trip_id=trip.id)
+
+    return redirect('packing_list', trip_id=trip.id)
