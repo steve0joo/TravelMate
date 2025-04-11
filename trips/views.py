@@ -46,12 +46,17 @@ def trip_detail(request, trip_id):
 @login_required
 def packing_list(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
-    generate_packing_list(trip)
+
+    if not trip.packing_items.exists() and not trip.manually_cleared:
+        generate_packing_list(trip)
 
     if request.method == 'POST':
         new_item = request.POST.get('new_item')
         if new_item:
             PackingItem.objects.create(trip=trip, name=new_item)
+            if trip.manually_cleared:
+                trip.manually_cleared = False
+                trip.save()
 
     items = trip.packing_items.all().order_by('is_packed', 'name')
     return render(request, 'trips/packing_list.html', {'trip': trip, 'items': items})
@@ -61,23 +66,20 @@ def update_packing_list(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
 
     if request.method == 'POST':
+        # Delete selected item
+        if 'delete_item' in request.POST:
+            item_name = request.POST.get('delete_item')
+            PackingItem.objects.filter(trip=trip, name=item_name).delete()
+
+        # Mark items as packed
         packed_items = request.POST.getlist('packed_items')
-        delete_item = request.POST.get('delete_item')
-        new_item = request.POST.get('new_item')
+        for item in trip.packing_items.all():
+            item.is_packed = item.name in packed_items
+            item.save()
 
-        # Delete item if requested
-        if delete_item:
-            trip.packing_items.filter(name=delete_item).delete()
-
-        # Add a new custom item
-        elif new_item:
-            if not trip.packing_items.filter(name=new_item).exists():
-                PackingItem.objects.create(trip=trip, name=new_item)
-
-        else:
-            # Update packed state for all items
-            for item in trip.packing_items.all():
-                item.is_packed = item.name in packed_items
-                item.save()
+        # If all items were deleted, mark trip as manually cleared
+        if not trip.packing_items.exists():
+            trip.manually_cleared = True
+            trip.save()
 
     return redirect('packing_list', trip_id=trip.id)

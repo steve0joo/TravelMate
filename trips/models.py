@@ -18,6 +18,7 @@ class Trip(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     trip_type = models.CharField(max_length=50, choices=TRIP_TYPE_CHOICES, default='other')
+    manually_cleared = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

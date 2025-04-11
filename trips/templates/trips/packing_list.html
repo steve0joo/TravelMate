@@ -101,6 +101,7 @@
   <form method="post" action="{% url 'update_packing_list' trip.id %}">
     {% csrf_token %}
     <ul style="list-style: none; padding: 0;">
+      {% if items %}
       {% for item in items %}
       <li class="packing-item fade-in">
         <label style="display: flex; align-items: center; gap: 10px;">
@@ -110,6 +111,9 @@
         <button type="submit" name="delete_item" value="{{ item.name }}" class="btn-icon">🗑️</button>
       </li>
       {% endfor %}
+      {% else %}
+        <li style="text-align: center; padding: 20px; color: #999;">Your packing list is empty. Start adding items above!</li>
+      {% endif %}
     </ul>
     <button type="submit" class="update-btn" style="width: 100%; margin-top: 20px;">✅ Update List</button>
   </form>
