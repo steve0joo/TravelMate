@@ -121,5 +121,16 @@
     </div>
   </div>
 
+  <script>
+    const startInput = document.querySelector('input[name="start_date"]');
+    const endInput = document.querySelector('input[name="end_date"]');
+
+    startInput.addEventListener("change", function () {
+      endInput.min = this.value;
+      if (endInput.value < this.value) {
+        endInput.value = this.value;
+      }
+    });
+  </script>
 </body>
 </html>
