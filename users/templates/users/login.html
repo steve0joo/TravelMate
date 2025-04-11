@@ -84,10 +84,14 @@
     <h2>Welcome Back</h2>
     <form method="post">
       {% csrf_token %}
-      {% for field in form %}
-        {{ field.errors }}
-        <div>{{ field|add_class:"input-field" }}</div>
-      {% endfor %}
+      <div>
+        {{ form.login.errors }}
+        <input type="text" name="{{ form.login.name }}" class="input-field" placeholder="Username" value="{{ form.login.value }}">
+      </div>
+      <div>
+        {{ form.password.errors }}
+        <input type="password" name="{{ form.password.name }}" class="input-field" placeholder="Password" value="">
+      </div>
       <button type="submit">Log In</button>
     </form>
     <div class="footer-link">
