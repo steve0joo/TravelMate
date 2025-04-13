@@ -10,6 +10,7 @@
       margin: 0;
       padding: 0;
     }
+
     .container {
       max-width: 800px;
       margin: 40px auto;
@@ -18,6 +19,7 @@
       border-radius: 12px;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
     }
+
     a.button {
       background-color: #2a7de1;
       color: white;
@@ -28,11 +30,36 @@
       display: inline-block;
       margin-top: 20px;
     }
+
+    /* 🔵 Feedback Button Styling */
+    #feedback-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #2a7de1;
+      color: white;
+      padding: 12px 18px;
+      font-size: 14px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #feedback-button:hover {
+      background-color: #1c5cb3;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
   <div class="container">
     {% block content %}{% endblock %}
   </div>
+
+  <!-- 🔵 Floating Feedback Button -->
+  <a href="{% url 'leave_feedback' %}" id="feedback-button">💬 Feedback</a>
 </body>
 </html>

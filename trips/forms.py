@@ -1,5 +1,6 @@
 from django import forms
 from .models import Trip
+from .models import Feedback
 
 class TripForm(forms.ModelForm):
     class Meta:
@@ -10,3 +11,15 @@ class TripForm(forms.ModelForm):
                 'end_date': forms.DateInput(attrs={'type': 'date'}),
                 'trip_type': forms.Select(attrs={'class': 'input-field'})
             }
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['message']
+        widgets = {
+            'message': forms.Textarea(attrs={
+                'rows': 4, 
+                'placeholder': 'Leave your feedback here...',
+                'class': 'input-field'
+            }),
+        }

@@ -1,88 +1,30 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Trips | TravelMate</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
 
-    .container {
-      width: 360px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    h2 {
-      color: #1d3c78;
-      margin-bottom: 20px;
-    }
-
-    .trip {
-      border: 1px solid #ccc;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 15px;
-      background-color: #f9f9f9;
-    }
-
-    .trip a {
-      text-decoration: none;
-      color: #1d3c78;
-      font-weight: bold;
-    }
-
-    .trip small {
-      display: block;
-      color: #555;
-      margin-top: 5px;
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      background-color: #2a7de1;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    .button:hover {
-      background-color: #1c5cb3;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>My Trips</h2>
+{% block content %}
+  <div style="text-align: center;">
+    <h2 style="color: #1d3c78; margin-bottom: 20px;">My Trips</h2>
 
     {% for trip in trips %}
       <a href="{% url 'trip_detail' trip.id %}" style="text-decoration: none; color: inherit;">
-        <div class="trip">
-          <span>{{ trip.name }}</span>
-          <small>{{ trip.destination }} | {{ trip.start_date }} to {{ trip.end_date }}</small>
+        <div style="
+          border: 1px solid #ccc;
+          border-radius: 15px;
+          padding: 15px;
+          margin: 15px auto;
+          background-color: #f9f9f9;
+          max-width: 500px;
+          box-shadow: 0 1px 6px rgba(0,0,0,0.05);">
+          <span style="font-weight: bold; font-size: 18px;">{{ trip.name }}</span>
+          <small style="display: block; color: #555; margin-top: 5px;">
+            {{ trip.destination }} | {{ trip.start_date }} to {{ trip.end_date }}
+          </small>
         </div>
       </a>
     {% empty %}
       <p>You have no trips yet.</p>
     {% endfor %}
 
-    <a href="{% url 'profile' %}" class="button">⬅ Back to Profile</a>
+    <a href="{% url 'profile' %}" class="button" style="margin-top: 30px;">⬅ Back to Profile</a>
   </div>
-</body>
-</html>
+{% endblock %}

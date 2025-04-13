@@ -30,3 +30,11 @@ class PackingItem(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Feedback(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Feedback from {self.user.username} at {self.created_at}"

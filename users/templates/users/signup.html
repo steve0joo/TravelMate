@@ -1,86 +1,105 @@
+{% extends "base.html" %}
 {% load static %}
 {% load form_tags %}
 {% load socialaccount %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Sign Up | TravelMate</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      flex-direction: column;
-    }
 
-    .container {
-      width: 360px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      z-index: 2;
-    }
+{% block content %}
+<style>
+  .auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    flex-direction: column;
+  }
 
-    .container h2 {
-      text-align: center;
-      color: #1d3c78;
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
+  .auth-container {
+    width: 360px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
 
-    .input-field {
-      border-radius: 30px;
-      padding: 14px;
-      width: 100%;
-      border: 1px solid #ccc;
-      margin-bottom: 15px;
-      font-size: 15px;
-      box-sizing: border-box;
-    }
+  .auth-container h2 {
+    text-align: center;
+    color: #1d3c78;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
 
-    .container form button {
-      background-color: #2a7de1;
-      color: white;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 14px;
-      width: 100%;
-      border-radius: 30px;
-      font-size: 16px;
-      transition: 0.3s;
-    }
+  .input-field {
+    border-radius: 30px;
+    padding: 14px;
+    width: 100%;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
 
-    .container form button:hover {
-      background-color: #1c5cb3;
-    }
+  .auth-container form button {
+    background-color: #2a7de1;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 14px;
+    width: 100%;
+    border-radius: 30px;
+    font-size: 16px;
+    transition: 0.3s;
+  }
 
-    .footer-link {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 14px;
-    }
+  .auth-container form button:hover {
+    background-color: #1c5cb3;
+  }
 
-    .footer-link a {
-      color: #2a7de1;
-      text-decoration: none;
-    }
+  .footer-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+  }
 
-    .footer-link a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
+  .footer-link a {
+    color: #2a7de1;
+    text-decoration: none;
+  }
 
-  <div class="container">
+  .footer-link a:hover {
+    text-decoration: underline;
+  }
+
+  .social-btn {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .social-btn img {
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
+  .social-google {
+    background: #fff;
+  }
+
+  .social-github {
+    background: #333;
+    color: white;
+    border: none;
+  }
+</style>
+
+<div class="auth-wrapper">
+  <div class="auth-container">
     <h2>Create TravelMate Account</h2>
     <form method="post">
       {% csrf_token %}
@@ -94,22 +113,19 @@
       Already have an account? <a href="{% url 'login' %}">Log in</a>
     </div>
 
-  <div style="text-align:center; margin: 20px 0;">OR</div>
+    <div style="text-align:center; margin: 20px 0;">OR</div>
 
-<a href="{% provider_login_url 'google' %}">
-  <button type="button" style="background:#fff; border:1px solid #ccc; width:100%; padding:12px; margin-bottom:10px;">
-    <img src="{% static 'icons/google-icon.png' %}" style="height:20px; vertical-align:middle; margin-right:10px;">
-    Sign in with Google
-  </button>
-</a>
+    <a href="{% provider_login_url 'google' %}">
+      <div class="social-btn social-google">
+        <img src="{% static 'icons/google-icon.png' %}">Sign in with Google
+      </div>
+    </a>
 
-<a href="{% provider_login_url 'github' %}">
-  <button type="button" style="background:#333; color:white; width:100%; padding:12px;">
-    <img src="{% static 'icons/github-icon.png' %}" style="height:20px; vertical-align:middle; margin-right:10px;">
-    Sign in with GitHub
-  </button>
-</a>
+    <a href="{% provider_login_url 'github' %}">
+      <div class="social-btn social-github">
+        <img src="{% static 'icons/github-icon.png' %}">Sign in with GitHub
+      </div>
+    </a>
   </div>
-
-</body>
-</html>
+</div>
+{% endblock %}

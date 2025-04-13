@@ -9,6 +9,9 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from .forms import FeedbackForm
+from .models import Feedback
+
 @login_required
 def delete_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
@@ -83,3 +86,16 @@ def update_packing_list(request, trip_id):
             trip.save()
 
     return redirect('packing_list', trip_id=trip.id)
+
+@login_required
+def leave_feedback(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            feedback = form.save(commit=False)
+            feedback.user = request.user
+            feedback.save()
+            return redirect('profile')  # Or wherever you want
+    else:
+        form = FeedbackForm()
+    return render(request, 'trips/leave_feedback.html', {'form': form})

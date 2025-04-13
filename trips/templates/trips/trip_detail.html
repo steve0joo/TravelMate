@@ -1,63 +1,27 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ trip.name }} | Trip Detail</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
 
-    .container {
-      width: 360px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
+{% block content %}
+  <div style="
+    max-width: 400px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  ">
+    <h2 style="color: #1d3c78; margin-bottom: 20px;">{{ trip.name }}</h2>
 
-    h2 {
-      color: #1d3c78;
-      margin-bottom: 20px;
-    }
-
-    .info {
-      font-size: 15px;
-      margin-bottom: 10px;
-    }
-
-    a.button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      background-color: #2a7de1;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    a.button:hover {
-      background-color: #1c5cb3;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>{{ trip.name }}</h2>
-    <p class="info"><strong>Destination:</strong> {{ trip.destination }}</p>
-    <p class="info"><strong>Start Date:</strong> {{ trip.start_date }}</p>
-    <p class="info"><strong>End Date:</strong> {{ trip.end_date }}</p>
+    <p style="font-size: 15px; margin-bottom: 10px;">
+      <strong>Destination:</strong> {{ trip.destination }}
+    </p>
+    <p style="font-size: 15px; margin-bottom: 10px;">
+      <strong>Start Date:</strong> {{ trip.start_date }}
+    </p>
+    <p style="font-size: 15px; margin-bottom: 10px;">
+      <strong>End Date:</strong> {{ trip.end_date }}
+    </p>
 
     <form method="post" action="{% url 'delete_trip' trip.id %}" style="margin-top: 20px;">
       {% csrf_token %}
@@ -73,8 +37,9 @@
       ">🗑 Delete Trip</button>
     </form>
 
-    <a href="{% url 'trip_list' %}" class="button">⬅ Back to Trip List</a>
-    <a href="{% url 'packing_list' trip.id %}" class="button" style="margin-left: 10px;">📦 View Packing List</a>
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+      <a href="{% url 'trip_list' %}" class="button">⬅ Back to Trip List</a>
+      <a href="{% url 'packing_list' trip.id %}" class="button">📦 View Packing List</a>
+    </div>
   </div>
-</body>
-</html>
+{% endblock %}

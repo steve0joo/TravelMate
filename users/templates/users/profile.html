@@ -1,89 +1,39 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Profile | TravelMate</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
 
-    .container {
-      width: 360px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
+{% block content %}
+  <div style="
+    max-width: 400px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  ">
+    <h2 style="color: #1d3c78; margin-bottom: 20px; font-weight: 700;">
+      Welcome, {{ user.username }}!
+    </h2>
 
-    .container h2 {
-      color: #1d3c78;
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
+    <p style="font-size: 15px; margin-bottom: 10px;">
+      <strong>Email:</strong> {{ user.email }}
+    </p>
 
-    .info {
-      font-size: 15px;
-      margin-bottom: 10px;
-    }
-
-    .button {
-      display: block;
-      margin: 15px auto;
-      padding: 12px 25px;
-      background-color: #2a7de1;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: bold;
-      font-size: 14px;
-      transition: background-color 0.3s;
-    }
-
-    .button:hover {
-      background-color: #1c5cb3;
-    }
-
-    .logout {
-      font-size: 14px;
-      margin-top: 15px;
-    }
-
-    .logout a {
-      color: #2a7de1;
-      text-decoration: none;
-    }
-
-    .logout a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <h2>Welcome, {{ user.username }}!</h2>
-    <p class="info"><strong>Email:</strong> {{ user.email }}</p>
     {% if user.bio %}
-    <p class="info"><strong>Bio:</strong> {{ user.bio }}</p>
+    <p style="font-size: 15px; margin-bottom: 10px;">
+      <strong>Bio:</strong> {{ user.bio }}
+    </p>
     {% endif %}
 
-    <a href="{% url 'create_trip' %}" class="button">➕ Add New Trip</a>
-    <a href="{% url 'trip_list' %}" class="button">📋 View My Trips</a>
+    <a href="{% url 'create_trip' %}" class="button" style="display: block; margin: 15px auto;">
+      ➕ Add New Trip
+    </a>
+    <a href="{% url 'trip_list' %}" class="button" style="display: block; margin: 15px auto;">
+      📋 View My Trips
+    </a>
 
-    <div class="logout">
-      <a href="{% url 'logout' %}">Log out</a>
+    <div style="font-size: 14px; margin-top: 15px;">
+      <a href="{% url 'logout' %}" style="color: #2a7de1; text-decoration: none;">Log out</a>
     </div>
   </div>
-
-</body>
-</html>
+{% endblock %}
