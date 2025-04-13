@@ -11,6 +11,18 @@ from django.urls import reverse
 
 from .forms import FeedbackForm
 from .models import Feedback
+from django.shortcuts import render, get_object_or_404
+from .models import Trip
+from django.shortcuts import get_object_or_404, render
+from .models import Trip
+
+def shared_trip_view(request, token):
+    trip = get_object_or_404(Trip, share_token=token, is_public=True)
+    return render(request, 'trips/shared_trip.html', {'trip': trip})
+
+def public_trip_view(request, token):
+    trip = get_object_or_404(Trip, share_token=token, is_public=True)
+    return render(request, 'trips/public_trip.html', {'trip': trip})
 
 @login_required
 def delete_trip(request, trip_id):
@@ -99,3 +111,10 @@ def leave_feedback(request):
     else:
         form = FeedbackForm()
     return render(request, 'trips/leave_feedback.html', {'form': form})
+
+@login_required
+def toggle_public_trip(request, trip_id):
+    trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+    trip.is_public = not trip.is_public
+    trip.save()
+    return redirect('trip_detail', trip_id=trip.id)

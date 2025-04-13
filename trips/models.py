@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
+import uuid
 
 class Trip(models.Model):
     TRIP_TYPE_CHOICES = [
@@ -22,6 +23,16 @@ class Trip(models.Model):
 
     def __str__(self):
         return self.name
+    
+    is_public = models.BooleanField(default=False)
+    share_token = models.CharField(max_length=12, unique=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if self.is_public and not self.share_token:
+            self.share_token = uuid.uuid4().hex[:12]  # short unique token
+        elif not self.is_public:
+            self.share_token = None
+        super().save(*args, **kwargs)
 
 class PackingItem(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='packing_items')

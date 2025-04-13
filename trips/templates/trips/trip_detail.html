@@ -41,5 +41,66 @@
       <a href="{% url 'trip_list' %}" class="button">⬅ Back to Trip List</a>
       <a href="{% url 'packing_list' trip.id %}" class="button">📦 View Packing List</a>
     </div>
+    <form method="post" action="{% url 'toggle_public' trip.id %}" style="margin-top: 25px;">
+      {% csrf_token %}
+      {% if trip.is_public %}
+        <div style="
+          background-color: #e0f7fa;
+          border: 1px solid #00acc1;
+          border-radius: 10px;
+          padding: 15px;
+          margin: 20px auto 15px auto;
+          max-width: 100%;
+          box-sizing: border-box;
+        ">
+          <p style="margin: 0 0 10px 0; color: #006064; font-weight: bold;">
+            🌍 This trip is currently <span style="color: green;">Public</span>
+          </p>
+          <input type="text" value="{{ request.build_absolute_uri|cut:request.get_full_path }}shared/{{ trip.share_token }}/" 
+                 readonly 
+                 style="box-sizing: border-box; width: 100%; padding: 10px 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; background-color: #f5faff; font-family: 'Segoe UI', sans-serif; color: #333; word-break: break-all;">
+          <button type="button" onclick="copyLink()" style="
+            margin-top: 10px;
+            background-color: #2a7de1;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+          ">📋 Copy Link</button>
+        </div>
+        <button type="submit" style="
+          background-color: #f26c4f;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 25px;
+          font-weight: bold;
+          cursor: pointer;
+        ">🔒 Make Private</button>
+      {% else %}
+        <button type="submit" style="
+          background-color: #26a69a;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 25px;
+          font-weight: bold;
+          cursor: pointer;
+        ">🌐 Share Trip Publicly</button>
+      {% endif %}
+    </form>
   </div>
+  <script>
+    function copyLink() {
+      const input = document.querySelector('input[readonly]');
+      navigator.clipboard.writeText(input.value).then(function() {
+        alert('Link copied to clipboard!');
+      }, function(err) {
+        alert('Failed to copy link');
+      });
+    }
+  </script>
 {% endblock %}

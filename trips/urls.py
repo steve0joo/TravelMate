@@ -9,4 +9,7 @@ urlpatterns = [
     path('<int:trip_id>/packing/', views.packing_list, name='packing_list'),
     path('<int:trip_id>/update/', views.update_packing_list, name='update_packing_list'),
     path('feedback/', views.leave_feedback, name='leave_feedback'),
+    path('shared/<str:token>/', views.public_trip_view, name='public_trip'),
+    path('<int:trip_id>/toggle_public/', views.toggle_public_trip, name='toggle_public'),
+    path('shared/<str:token>/', views.shared_trip_view, name='shared_trip'),
 ]
