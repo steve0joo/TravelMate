@@ -1,65 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>TravelMate</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <title>TravelMate</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom, #d0e9ff, #ffffff);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
 
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        }
 
-    a.button {
-      background-color: #2a7de1;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 20px;
-      font-weight: bold;
-      display: inline-block;
-      margin-top: 20px;
-    }
+        a.button {
+            background-color: #2a7de1;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+        }
 
-    /* 🔵 Feedback Button Styling */
-    #feedback-button {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background-color: #2a7de1;
-      color: white;
-      padding: 12px 18px;
-      font-size: 14px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-      z-index: 999;
-      transition: background-color 0.3s, transform 0.3s;
-    }
+        /* 🔵 Feedback Button Styling */
+        #feedback-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #2a7de1;
+            color: white;
+            padding: 12px 18px;
+            font-size: 14px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            transition: background-color 0.3s, transform 0.3s;
+        }
 
-    #feedback-button:hover {
-      background-color: #1c5cb3;
-      transform: scale(1.05);
-    }
-  </style>
+        #feedback-button:hover {
+            background-color: #1c5cb3;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
+<div class="container">
     {% block content %}{% endblock %}
-  </div>
+</div>
 
-  <!-- 🔵 Floating Feedback Button -->
-  <a href="{% url 'leave_feedback' %}" id="feedback-button">💬 Feedback</a>
+<!-- 🔵 Floating Feedback Button -->
+<a href="{% url 'leave_feedback' %}" id="feedback-button">💬 Feedback</a>
 </body>
 </html>
