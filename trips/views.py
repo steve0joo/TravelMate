@@ -13,12 +13,53 @@ from .forms import FeedbackForm
 from .models import Feedback
 from django.shortcuts import render, get_object_or_404
 from .models import Trip
-from django.shortcuts import get_object_or_404, render
-from .models import Trip
 
-def shared_trip_view(request, token):
-    trip = get_object_or_404(Trip, share_token=token, is_public=True)
-    return render(request, 'trips/shared_trip.html', {'trip': trip})
+from django.http import HttpResponse
+from .models import Trip, PackingItem
+
+def share_trip(request, trip_id):
+    trip = get_object_or_404(Trip, id=trip_id)
+
+    packing_items = PackingItem.objects.filter(trip=trip)
+    packing_list_text = "\n".join(f"- {item.name}" for item in packing_items)
+
+    content = (
+        f"Trip Name: {trip.name}\n"
+        f"Destination: {trip.destination}\n"
+        f"Start Date: {trip.start_date}\n"
+        f"End Date: {trip.end_date}\n\n"
+        f"Packing List:\n{packing_list_text}"
+    )
+
+    return render(request, 'trips/share_trip.html', {
+        'trip': trip,
+        'trip_text': content,
+        'share_url': request.build_absolute_uri()
+    })
+
+def download_trip_txt(request, trip_id):
+    trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+
+    packing_items = trip.packing_items.all().order_by('is_packed', 'name')
+    packing_text = "\n".join([
+        f"- [{'x' if item.is_packed else ' '}] {item.name}" for item in packing_items
+    ])
+
+    content = f"""Trip Name: {trip.name}
+Start Date: {trip.start_date}
+End Date: {trip.end_date}
+
+Packing List:
+{packing_text}
+"""
+
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition'] = f'attachment; filename="{trip.name}_details.txt"'
+    return response
+
+def shared_trip_view(request, share_token):
+    trip = get_object_or_404(Trip, share_token=share_token, is_public=True)
+    return render(request, 'trips/shared_trip_detail.html', {'trip': trip})
 
 def public_trip_view(request, token):
     trip = get_object_or_404(Trip, share_token=token, is_public=True)

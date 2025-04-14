@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block content %}
-  <div style="max-width: 480px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center;">
-    <h2 style="color: #1d3c78;">{{ trip.name }}</h2>
-    <p><strong>Destination:</strong> {{ trip.destination }}</p>
-    <p><strong>Dates:</strong> {{ trip.start_date }} → {{ trip.end_date }}</p>
-    <p style="color: green; font-weight: bold;">✅ This is a shared trip preview</p>
-  </div>
-{% endblock %}
