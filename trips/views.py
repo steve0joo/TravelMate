@@ -17,6 +17,8 @@ from .models import Trip
 from django.http import HttpResponse
 from .models import Trip, PackingItem
 
+import requests
+
 def share_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id)
 
@@ -94,10 +96,28 @@ def trip_list(request):
     trips = Trip.objects.filter(user=request.user).order_by('-start_date')
     return render(request, 'trips/trip_list.html', {'trips': trips})
 
+
 @login_required
 def trip_detail(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
-    return render(request, 'trips/trip_detail.html', {'trip': trip})
+    photo_url = None
+
+    try:
+        response = requests.get(
+            'https://api.unsplash.com/search/photos',
+            params={'query': trip.destination, 'per_page': 1, 'orientation': 'portrait'},
+            headers={'Authorization': 'Client-ID gR0mr2UCMNC_f50G9cuFxHBR38lI0Wpfrxt2ZFhhfGA'}  # ← insert your key here
+        )
+        data = response.json()
+        if data.get('results'):
+            photo_url = data['results'][0]['urls']['regular']
+    except Exception as e:
+        print(f"Unsplash API error: {e}")
+
+    return render(request, 'trips/trip_detail.html', {
+        'trip': trip,
+        'photo_url': photo_url
+    })
 
 @login_required
 def packing_list(request, trip_id):
