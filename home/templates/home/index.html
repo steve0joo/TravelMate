@@ -2,28 +2,104 @@
 {% load static %}
 
 {% block content %}
-<div style="max-width: 600px; margin: 40px auto; background: #ffffff; padding: 40px 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); text-align: center;">
-    <h1 style="color: #1d3c78; margin-bottom: 20px; font-weight: bold;">Welcome to TravelMate!</h1>
-    <p style="font-size: 17px; margin-bottom: 30px;">
-        Plan your trips with ease. Get weather-based outfit suggestions, generate packing lists, and discover local tips.
-    </p>
+<style>
+  .home-wrapper {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+  }
 
-    <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-        {% if user.is_authenticated %}
-            <!-- If the user is logged in, show links to key features -->
-            <a href="{% url 'profile' %}" class="button" style="padding: 10px 20px; background: #1d3c78; color: white; border-radius: 5px; text-decoration: none;">My Profile</a>
-            <a href="{% url 'trip_list' %}" class="button" style="padding: 10px 20px; background: #1d3c78; color: white; border-radius: 5px; text-decoration: none;">My Trips</a>
-            <a href="{% url 'create_trip' %}" class="button" style="padding: 10px 20px; background: #1d3c78; color: white; border-radius: 5px; text-decoration: none;">New Trip</a>
-            <a href="{% url 'logout' %}" class="button" style="padding: 10px 20px; background: #d9534f; color: white; border-radius: 5px; text-decoration: none;">Logout</a>
-        {% else %}
-            <!-- If not logged in, prompt user to log in or sign up -->
-            <a href="{% url 'login' %}" class="button" style="padding: 10px 20px; background: #1d3c78; color: white; border-radius: 5px; text-decoration: none;">Login</a>
-            <a href="{% url 'signup' %}" class="button" style="padding: 10px 20px; background: #1d3c78; color: white; border-radius: 5px; text-decoration: none;">Sign Up</a>
-        {% endif %}
-    </div>
+  .home-wrapper h1 {
+    font-size: 2.5rem;
+    color: #1d3c78;
+    margin-bottom: 20px;
+    font-weight: 800;
+  }
 
-    <div style="margin-top: 30px; font-size: 15px;">
-        <a href="/accounts/" style="color: #2a7de1; text-decoration: none;">Need help with social accounts?</a>
-    </div>
+  .home-wrapper p {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 35px;
+    line-height: 1.6;
+  }
+
+  .home-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .home-buttons a {
+    padding: 12px 22px;
+    font-weight: 600;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    font-size: 15px;
+  }
+
+  .home-buttons a:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background-color: #2a7de1;
+    color: white;
+  }
+
+  .btn-danger {
+    background-color: #d9534f;
+    color: white;
+  }
+
+  .support-link {
+    margin-top: 30px;
+    font-size: 0.95rem;
+  }
+
+  .support-link a {
+    color: #2a7de1;
+    text-decoration: none;
+  }
+
+  .support-link a:hover {
+    text-decoration: underline;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="home-wrapper">
+  <h1>Welcome to TravelMate!</h1>
+  <p>
+    Plan smarter. Pack lighter. Travel better.<br>
+    Get personalized outfit suggestions, smart packing lists, and local travel tips.
+  </p>
+
+  <div class="home-buttons">
+    {% if user.is_authenticated %}
+      <a href="{% url 'profile' %}" class="btn-primary">My Profile</a>
+      <a href="{% url 'trip_list' %}" class="btn-primary">My Trips</a>
+      <a href="{% url 'create_trip' %}" class="btn-primary">New Trip</a>
+      <a href="{% url 'logout' %}" class="btn-danger">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}" class="btn-primary">Login</a>
+      <a href="{% url 'signup' %}" class="btn-primary">Sign Up</a>
+    {% endif %}
+  </div>
+
+  <div class="support-link">
+    <a href="/accounts/">Need help with social accounts?</a>
+  </div>
 </div>
 {% endblock %}
