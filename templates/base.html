@@ -1,61 +1,96 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TravelMate</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to bottom, #d0e9ff, #ffffff);
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <title>TravelMate</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            max-width: 2000px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-        }
+    .container {
+      max-width: 2000px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
 
-        a.button {
-            background-color: #2a7de1;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 20px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 20px;
-        }
+    a.button {
+      background-color: #2a7de1;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 20px;
+    }
 
-        /* 🔵 Feedback Button Styling */
-        #feedback-button {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #2a7de1;
-            color: white;
-            padding: 12px 18px;
-            font-size: 14px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-            z-index: 999;
-            transition: background-color 0.3s, transform 0.3s;
-        }
+    /* 🔵 Feedback Button Styling */
+    #feedback-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #2a7de1;
+      color: white;
+      padding: 12px 18px;
+      font-size: 14px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      transition: background-color 0.3s, transform 0.3s;
+    }
 
-        #feedback-button:hover {
-            background-color: #1c5cb3;
-            transform: scale(1.05);
-        }
-    </style>
+    #feedback-button:hover {
+      background-color: #1c5cb3;
+      transform: scale(1.05);
+    }
+
+    .footerSocialIconsWrapper {
+      display: flex;
+      justify-content: center; /* Centers the icon */
+      align-items: center;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .footerSocialIconsWrapper .socialBrands {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footerSocialIconsWrapper a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .footerSocialIconsWrapper a img {
+      display: block; /* Removes extra spacing of images */
+      width: auto;
+      height: 40px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .footerSocialIconsWrapper a:hover img {
+      transform: scale(1.1); /* Slight zoom effect on hover */
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
 <header style="padding: 24px 0; background: linear-gradient(to bottom, #d0e9ff, #ffffff); box-shadow: 0 1px 6px rgba(0,0,0,0.05);">
@@ -76,24 +111,29 @@
   </nav>
 </header>
 <div class="container">
-    {% block content %}{% endblock %}
+  {% block content %}{% endblock %}
 </div>
 
 <!-- 🔵 Floating Feedback Button -->
 <a href="{% url 'leave_feedback' %}" id="feedback-button">💬 Feedback</a>
-<footer style="background-color: #111; color: #ccc; padding: 60px 0 40px; font-size: 15px; line-height: 1.7;">
+<footer style="background-color: #98c1d9; color: #ccc; padding: 60px 0 40px; font-size: 15px; line-height: 1.7;">
   <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 60px; padding: 0 24px;">
     <div style="flex: 1 1 280px;">
       <h3 style="color: #fff; margin-bottom: 14px;">TravelMate</h3>
-      <p style="margin: 0;">Plan smarter, pack lighter, and explore further. Whether it's a weekend trip or a long adventure, we’ve got your back.</p>
+      <p style="margin: 0; color: #666;" >Plan smarter, pack lighter, and explore further. Whether it's a weekend trip or a long
+        adventure, we’ve got your back.</p>
     </div>
     <div style="flex: 1 1 160px;">
       <h4 style="color: #fff; margin-bottom: 14px;">Quick Links</h4>
       <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 8px;"><a href="{% url 'home' %}" style="color: #aaa; text-decoration: none;">Home</a></li>
-        <li style="margin-bottom: 8px;"><a href="{% url 'trip_list' %}" style="color: #aaa; text-decoration: none;">My Trips</a></li>
-        <li style="margin-bottom: 8px;"><a href="{% url 'create_trip' %}" style="color: #aaa; text-decoration: none;">Plan a Trip</a></li>
-        <li style="margin-bottom: 8px;"><a href="{% url 'leave_feedback' %}" style="color: #aaa; text-decoration: none;">Feedback</a></li>
+        <li style="margin-bottom: 8px; "><a href="{% url 'home' %}" style="color: #aaa; text-decoration: none;">Home</a>
+        </li>
+        <li style="margin-bottom: 8px;"><a href="{% url 'trip_list' %}" style="color: #aaa; text-decoration: none;">My
+          Trips</a></li>
+        <li style="margin-bottom: 8px;"><a href="{% url 'create_trip' %}" style="color: #aaa; text-decoration: none;">Plan
+          a Trip</a></li>
+        <li style="margin-bottom: 8px;"><a href="{% url 'leave_feedback' %}"
+                                           style="color: #aaa; text-decoration: none;">Feedback</a></li>
       </ul>
     </div>
     <div style="flex: 1 1 200px;">
@@ -105,6 +145,26 @@
   </div>
   <div style="text-align: center; color: #666; padding-top: 30px; margin-top: 40px; border-top: 1px solid #333;">
     © 2025 TravelMate. All rights reserved.
+  </div>
+  <div class="footerSocialIconsWrapper">
+    <div class="socialBrands">
+      <a href="mailto:pjsabraham@gmail.com, steven.joo0319@gmail.com, davidleeym03@gmail.com, jackmwachter@gmail.com, mistervic03@gmail.com"
+         target="_blank" rel="noopener noreferrer" aria-label="Email">
+        <img src="{% static 'img/mail.png' %}" alt="mail" height="40"/>
+      </a>
+    </div>
+    <div class="socialBrands">
+      <a href="https://github.com/JackWachter/GTMovieStore" target="_blank" rel="noopener noreferrer"
+         aria-label="GitHub">
+        <img src="{% static 'img/github.png' %}" alt="github" height="40"/>
+      </a>
+    </div>
+    <div class="socialBrands">
+      <a href="https://www.cc.gatech.edu/" target="_blank" rel="noopener noreferrer"
+         aria-label="Georgia Tech">
+        <img src="{% static 'img/gt.png' %}" alt="Georgia Tech" height="40"/>
+      </a>
+    </div>
   </div>
 </footer>
 </body>
