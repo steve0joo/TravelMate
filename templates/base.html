@@ -58,11 +58,54 @@
     </style>
 </head>
 <body>
+<header style="padding: 24px 0; background: linear-gradient(to bottom, #d0e9ff, #ffffff); box-shadow: 0 1px 6px rgba(0,0,0,0.05);">
+  <nav style="display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: auto; padding: 0 24px;">
+    <div>
+      <a href="{% url 'home' %}" style="font-weight: bold; font-size: 1.6rem; text-decoration: none; color: #2a7de1;">TravelMate</a>
+    </div>
+    <div>
+      {% if user.is_authenticated %}
+        <a href="{% url 'trip_list' %}" style="margin-right: 20px; text-decoration: none; color: #333;">My Trips</a>
+        <a href="{% url 'create_trip' %}" style="margin-right: 20px; text-decoration: none; color: #333;">New Trip</a>
+        <a href="{% url 'logout' %}" style="margin-right: 20px; text-decoration: none; color: #d9534f;">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}" style="margin-right: 20px; text-decoration: none; color: #333;">Login</a>
+        <a href="{% url 'signup' %}" style="margin-right: 20px; text-decoration: none; color: #333;">Sign Up</a>
+      {% endif %}
+    </div>
+  </nav>
+</header>
 <div class="container">
     {% block content %}{% endblock %}
 </div>
 
 <!-- 🔵 Floating Feedback Button -->
 <a href="{% url 'leave_feedback' %}" id="feedback-button">💬 Feedback</a>
+<footer style="background-color: #111; color: #ccc; padding: 60px 0 40px; font-size: 15px; line-height: 1.7;">
+  <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 60px; padding: 0 24px;">
+    <div style="flex: 1 1 280px;">
+      <h3 style="color: #fff; margin-bottom: 14px;">TravelMate</h3>
+      <p style="margin: 0;">Plan smarter, pack lighter, and explore further. Whether it's a weekend trip or a long adventure, we’ve got your back.</p>
+    </div>
+    <div style="flex: 1 1 160px;">
+      <h4 style="color: #fff; margin-bottom: 14px;">Quick Links</h4>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="{% url 'home' %}" style="color: #aaa; text-decoration: none;">Home</a></li>
+        <li style="margin-bottom: 8px;"><a href="{% url 'trip_list' %}" style="color: #aaa; text-decoration: none;">My Trips</a></li>
+        <li style="margin-bottom: 8px;"><a href="{% url 'create_trip' %}" style="color: #aaa; text-decoration: none;">Plan a Trip</a></li>
+        <li style="margin-bottom: 8px;"><a href="{% url 'leave_feedback' %}" style="color: #aaa; text-decoration: none;">Feedback</a></li>
+      </ul>
+    </div>
+    <div style="flex: 1 1 200px;">
+      <h4 style="color: #fff; margin-bottom: 14px;">Contact</h4>
+      <p style="margin: 0;">📍 Atlanta, GA</p>
+      <p style="margin: 6px 0;">✉️ davidleeym03@gmail.com</p>
+      <p style="margin: 0;">✉️ mistervic03@gmail.com</p>
+    </div>
+  </div>
+  <div style="text-align: center; color: #666; padding-top: 30px; margin-top: 40px; border-top: 1px solid #333;">
+    © 2025 TravelMate. All rights reserved.
+  </div>
+</footer>
 </body>
 </html>

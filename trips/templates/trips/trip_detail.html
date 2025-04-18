@@ -14,17 +14,20 @@
         }
 
         .trip-image {
-            max-width: 50%;
-            flex-shrink: 1;
+            max-width: 460px;
+            flex: 1;
+            height: 100%;
+            display: flex;
+            align-items: stretch;
         }
 
         .trip-image img {
             width: 100%;
-            height: auto;
+            height: 420px;
             display: block;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            object-fit: contain;
+            object-fit: cover;
         }
 
         .trip-card {
@@ -35,6 +38,7 @@
             border-radius: 20px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
+            height: auto;
         }
 
         .trip-card h2 {
