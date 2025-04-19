@@ -2,26 +2,26 @@
 {% load static %}
 
 {% block content %}
-  <div style="text-align: center;">
-    <h2 style="color: #1d3c78; margin-bottom: 30px; font-size: 28px; font-weight: 700;">My Trips</h2>
+    <div style="text-align: center;">
+        <h2 style="color: #1d3c78; margin-bottom: 30px; font-size: 28px; font-weight: 700;">My Trips</h2>
 
-    <div class="trip-list">
-      {% for trip in trips %}
-        <a href="{% url 'trip_detail' trip.id %}" class="trip-card-link">
-          <div class="trip-card">
-            <div class="trip-title">{{ trip.name }}</div>
-            <div class="trip-info">
-              {{ trip.destination }}<br>
-              {{ trip.start_date }} – {{ trip.end_date }}
-            </div>
-          </div>
-        </a>
-      {% empty %}
-        <p style="font-size: 16px; color: #777;">You have no trips yet.</p>
-      {% endfor %}
-    </div>
+        <div class="trip-list">
+            {% for trip in trips %}
+                <a href="{% url 'trip_detail' trip.id %}" class="trip-card-link">
+                    <div class="trip-card">
+                        <div class="trip-title">{{ trip.name }}</div>
+                        <div class="trip-info">
+                            {{ trip.destination }}<br>
+                            {{ trip.start_date }} – {{ trip.end_date }}
+                        </div>
+                    </div>
+                </a>
+            {% empty %}
+                <p style="font-size: 16px; color: #777;">You have no trips yet.</p>
+            {% endfor %}
+        </div>
 
-    <a href="{% url 'profile' %}" class="button" style="
+        <a href="{% url 'profile' %}" class="button" style="
       margin-top: 40px;
       background-color: #faa275;
       padding: 12px 24px;
@@ -31,53 +31,53 @@
       text-decoration: none;
       color: white;
       transition: background 0.3s ease;">
-      ⬅ Back to Profile
-    </a>
-  </div>
+            ⬅ Back to Profile
+        </a>
+    </div>
 
-  <style>
-    .trip-card-link {
-      text-decoration: none;
-      color: inherit;
-    }
+    <style>
+        .trip-card-link {
+            text-decoration: none;
+            color: inherit;
+        }
 
-    .trip-card {
-      border-radius: 15px;
-      padding: 20px;
-      margin: 20px auto;
-      background: linear-gradient(to right, #e3f2fd, #ffffff);
-      max-width: 600px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      transition: all 0.4s ease;
-      transform: perspective(1px) translateZ(0);
-    }
+        .trip-card {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            background: linear-gradient(to right, #e3f2fd, #ffffff);
+            max-width: 600px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            transform: perspective(1px) translateZ(0);
+        }
 
-    .trip-title {
-      font-weight: 700;
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
+        .trip-title {
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
 
-    .trip-info {
-      color: #555;
-      font-size: 15px;
-    }
+        .trip-info {
+            color: #555;
+            font-size: 15px;
+        }
 
-    .trip-card:hover {
-      transform: scale(1.03) translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      background-position: right center;
-      background: linear-gradient(to right, #dbefff, #ffffff);
-      animation: pulse 1s ease-in-out infinite alternate;
-    }
+        .trip-card:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            background-position: right center;
+            background: linear-gradient(to right, #dbefff, #ffffff);
+            animation: pulse 1s ease-in-out infinite alternate;
+        }
 
-    @keyframes pulse {
-      from {
-        box-shadow: 0 0 8px rgba(42, 125, 225, 0.3);
-      }
-      to {
-        box-shadow: 0 0 14px rgba(42, 125, 225, 0.5);
-      }
-    }
-  </style>
+        @keyframes pulse {
+            from {
+                box-shadow: 0 0 8px rgba(42, 125, 225, 0.3);
+            }
+            to {
+                box-shadow: 0 0 14px rgba(42, 125, 225, 0.5);
+            }
+        }
+    </style>
 {% endblock %}
