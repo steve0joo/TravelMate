@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-  <div style="
+    <div style="
     max-width: 400px;
     margin: 40px auto;
     background: #ffffff;
@@ -11,25 +11,25 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     text-align: center;
   ">
-    <h2 style="color: #1d3c78; margin-bottom: 20px; font-weight: 700;">
-      Welcome, {{ user.username }}!
-    </h2>
+        <h2 style="color: #1d3c78; margin-bottom: 20px; font-weight: 700;">
+            Welcome, {{ user.username }}!
+        </h2>
 
-    {% if user.bio %}
-    <p style="font-size: 15px; margin-bottom: 10px;">
-      <strong>Bio:</strong> {{ user.bio }}
-    </p>
-    {% endif %}
+        {% if user.bio %}
+            <p style="font-size: 15px; margin-bottom: 10px;">
+                <strong>Bio:</strong> {{ user.bio }}
+            </p>
+        {% endif %}
 
-    <a href="{% url 'create_trip' %}" class="button" style="display: block; margin: 15px auto;">
-      ➕ Add New Trip
-    </a>
-    <a href="{% url 'trip_list' %}" class="button" style="display: block; margin: 15px auto;">
-      📋 View My Trips
-    </a>
+        <a href="{% url 'create_trip' %}" class="button" style="display: block; margin: 15px auto;">
+            ➕ Add New Trip
+        </a>
+        <a href="{% url 'trip_list' %}" class="button" style="display: block; margin: 15px auto;">
+            📋 View My Trips
+        </a>
 
-    <div style="font-size: 14px; margin-top: 15px;">
-      <a href="{% url 'logout' %}" style="color: #2a7de1; text-decoration: none;">Log out</a>
+        <div style="font-size: 14px; margin-top: 15px;">
+            <a href="{% url 'logout' %}" style="color: #2a7de1; text-decoration: none;">Log out</a>
+        </div>
     </div>
-  </div>
 {% endblock %}

@@ -2,185 +2,185 @@
 {% load static %}
 
 {% block content %}
-  <style>
-    :root {
-      --primary: #2a7de1;
-      --secondary: #1d3c78;
-      --accent: #d9534f;
-      --text: #333;
-      --bg-hero: url("{% static 'home/images/hero.jpg' %}");
-    }
+    <style>
+        :root {
+            --primary: #2a7de1;
+            --secondary: #1d3c78;
+            --accent: #d9534f;
+            --text: #333;
+            --bg-hero: url("{% static 'home/images/hero.jpg' %}");
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      color: var(--text);
-    }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--text);
+        }
 
-    .hero {
-      background: var(--bg-hero) center/cover no-repeat;
-      height: 70vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
+        .hero {
+            background: var(--bg-hero) center/cover no-repeat;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-    }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
 
-    .hero-content {
-      position: relative;
-      text-align: center;
-      color: #fff;
-      padding: 0 20px;
-      animation: fadeInUp 1s ease-out;
-    }
+        .hero-content {
+            position: relative;
+            text-align: center;
+            color: #fff;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
 
-    .hero-content h1 {
-      font-size: 3rem;
-      line-height: 1.2;
-      margin-bottom: 0.8rem;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
-    }
+        .hero-content h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 0.8rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
 
-    .hero-content p {
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
-    }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
 
-    .hero-buttons a {
-      display: inline-block;
-      margin: 0 10px;
-      padding: 12px 28px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+        .hero-buttons a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-    .hero-buttons a.primary {
-      background: var(--primary);
-      color: #fff;
-    }
+        .hero-buttons a.primary {
+            background: var(--primary);
+            color: #fff;
+        }
 
-    .hero-buttons a.secondary {
-      background: var(--secondary);
-      color: #fff;
-    }
+        .hero-buttons a.secondary {
+            background: var(--secondary);
+            color: #fff;
+        }
 
-    .hero-buttons a.primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(42, 125, 225, 0.4);
-    }
+        .hero-buttons a.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(42, 125, 225, 0.4);
+        }
 
-    .hero-buttons a.secondary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(29, 60, 120, 0.4);
-    }
+        .hero-buttons a.secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(29, 60, 120, 0.4);
+        }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
 
-    .feature-card {
-      background: #fff;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
+        .feature-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
 
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
 
-    .feature-card img {
-      width: 60px;
-      margin-bottom: 15px;
-    }
+        .feature-card img {
+            width: 60px;
+            margin-bottom: 15px;
+        }
 
-    .feature-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: var(--secondary);
-    }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
 
-    .feature-card p {
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
+        .feature-card p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
 
-    .home-footer {
-      text-align: center;
-      padding: 30px 20px;
-      background: #f9f9f9;
-      margin-top: 60px;
-      font-size: 0.9rem;
-      color: #666;
-    }
-  </style>
+        .home-footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: #f9f9f9;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
 
-  <header class="hero">
-    <div class="hero-content">
-      <h1>TravelMate</h1>
-      <p>Plan smarter. Pack lighter. Travel better.</p>
-      <div class="hero-buttons">
-        {% if user.is_authenticated %}
-          <a href="{% url 'trip_list' %}" class="primary">My Trips</a>
-          <a href="{% url 'create_trip' %}" class="secondary">New Trip</a>
-        {% else %}
-          <a href="{% url 'signup' %}" class="primary">Get Started</a>
-          <a href="{% url 'login' %}" class="secondary">Login</a>
-        {% endif %}
-      </div>
-    </div>
-  </header>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>TravelMate</h1>
+            <p>Plan smarter. Pack lighter. Travel better.</p>
+            <div class="hero-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'trip_list' %}" class="primary">My Trips</a>
+                    <a href="{% url 'create_trip' %}" class="secondary">New Trip</a>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="primary">Get Started</a>
+                    <a href="{% url 'login' %}" class="secondary">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
 
-  <main>
-    <section class="features">
-      <div class="feature-card">
-        <img src="{% static 'home/icons/outfit.svg' %}" alt="Outfit Suggestions">
-        <h3>Outfit Suggestions</h3>
-        <p>Receive customized outfit recommendations based on live weather data.</p>
-      </div>
-      <div class="feature-card">
-        <img src="{% static 'home/icons/packing.svg' %}" alt="Smart Packing">
-        <h3>Smart Packing</h3>
-        <p>Auto-generate packing lists and tweak them to your personal needs.</p>
-      </div>
-      <div class="feature-card">
-        <img src="{% static 'home/icons/local.svg' %}" alt="Local Tips">
-        <h3>Local Tips</h3>
-        <p>Discover essential cultural and safety tips tailored to your destination.</p>
-      </div>
-    </section>
-  </main>
+    <main>
+        <section class="features">
+            <div class="feature-card">
+                <img src="{% static 'home/icons/outfit.svg' %}" alt="Outfit Suggestions">
+                <h3>Outfit Suggestions</h3>
+                <p>Receive customized outfit recommendations based on live weather data.</p>
+            </div>
+            <div class="feature-card">
+                <img src="{% static 'home/icons/packing.svg' %}" alt="Smart Packing">
+                <h3>Smart Packing</h3>
+                <p>Auto-generate packing lists and tweak them to your personal needs.</p>
+            </div>
+            <div class="feature-card">
+                <img src="{% static 'home/icons/local.svg' %}" alt="Local Tips">
+                <h3>Local Tips</h3>
+                <p>Discover essential cultural and safety tips tailored to your destination.</p>
+            </div>
+        </section>
+    </main>
 {% endblock %}
