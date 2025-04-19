@@ -32,11 +32,23 @@
             overflow: hidden;
         }
 
+        .bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+
         .hero::before {
             content: '';
             position: absolute;
             inset: 0;
             background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
         }
 
         .hero-content {
@@ -45,6 +57,7 @@
             color: #fff;
             padding: 0 20px;
             animation: fadeInUp 1s ease-out;
+            z-index: 2;
         }
 
         .hero-content h1 {
@@ -162,6 +175,10 @@
                 {% endif %}
             </div>
         </div>
+        <video class="bg-video" autoplay muted loop playsinline>
+            <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </header>
 
     <main>
