@@ -18,6 +18,7 @@ from django.http import HttpResponse
 from .models import Trip, PackingItem
 
 import requests
+from .utils import get_place_recommendations
 
 def share_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id)
@@ -114,9 +115,15 @@ def trip_detail(request, trip_id):
     except Exception as e:
         print(f"Unsplash API error: {e}")
 
+    try:
+        recommendations = get_place_recommendations(trip.destination, place_type="tourist_attraction", max_results=3)
+    except Exception as e:
+        print(f"Google Places API error: {e}")
+
     return render(request, 'trips/trip_detail.html', {
         'trip': trip,
-        'photo_url': photo_url
+        'photo_url': photo_url,
+        'recommendations': recommendations
     })
 
 @login_required

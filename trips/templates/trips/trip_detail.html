@@ -179,9 +179,28 @@
             </div>
             <br>
             <div class="recommendation-card">
-                <p><strong>recommendation1</strong></p>
-                <p><strong>recommendation2</strong></p>
-                <p><strong>recommendation3</strong></p>
+                <h3 style="margin: 10px; padding-bottom: 15px">Location Recommendation</h3>
+                {% if recommendations %}
+                    {% for place in recommendations %}
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <p style="margin: 0; font-weight: 600; color: #1d3c78;">
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}"
+                                   target="_blank"
+                                   style="text-decoration: none; color: #1d3c78;">
+                                    {{ place.name }}
+                                </a>
+                            </p>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <img src="{% static 'icons/star.png' %}" alt="Star" style="width: 14px;">
+                                <span style="font-size: 14px; color: #444;">{{ place.rating }}</span>
+                            </div>
+                        </div>
+                        {% if not forloop.last %}
+                            <hr>{% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p>No recommendations found.</p>
+                {% endif %}
             </div>
         </div>
     </div>
