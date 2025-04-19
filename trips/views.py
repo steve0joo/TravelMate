@@ -116,7 +116,7 @@ def trip_detail(request, trip_id):
         print(f"Unsplash API error: {e}")
 
     try:
-        recommendations = get_place_recommendations(trip.destination, place_type="tourist_attraction", max_results=3)
+        recommendations = get_place_recommendations(trip.destination, trip.trip_type, max_results=3)
     except Exception as e:
         print(f"Google Places API error: {e}")
 
