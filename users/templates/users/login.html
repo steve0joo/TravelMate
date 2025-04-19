@@ -2,7 +2,6 @@
 {% load static %}
 {% load form_tags %}
 {% load socialaccount %}
-
 {% block content %}
     <style>
         .auth-wrapper {
@@ -55,17 +54,6 @@
             background-color: #ff5c21;
         }
 
-        .bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: -1;
-            filter: brightness(0.6);
-        }
-
         .container {
             max-width: 800px;
             margin: 40px auto;
@@ -73,7 +61,7 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
-        }       
+        }
 
         .footer-link {
             text-align: center;
@@ -88,18 +76,6 @@
 
         .footer-link a:hover {
             text-decoration: underline;
-        }
-
-        .logo {
-            position: absolute;  
-            top: 20px;          
-            left: 20px;          
-            z-index: 3;          
-        }
-
-        .logo img {
-            max-width: 250px;
-            height: auto;
         }
 
         .social-btn {
@@ -135,27 +111,6 @@
             border: none;
         }
 
-        .video-attribution {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            background: rgb(255, 255, 255);
-            padding: 5px 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            z-index: 3;
-        }
-
-        .video-attribution a {
-            color: #faa275;
-            text-decoration: none;
-        }
-
-        .video-attribution a:hover {
-            text-decoration: underline;
-        }
-
-        
     </style>
 
     <div class="auth-wrapper">
@@ -186,19 +141,6 @@
             </a>
 
         </div>
-    </div>
-
-    <div class="logo">
-      <img src="{% static 'icons/logo.png' %}" alt="TravelMate Logo">
-    </div>
-
-    <video class="bg-video" autoplay muted loop playsinline>
-      <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-
-    <div class="video-attribution">
-      Video courtesy of <a href="https://www.pexels.com/video/soft-waves-lapping-on-sandy-shores-2335977/" target="_blank">Ruvim Miksanskiy</a>
     </div>
 
 {% endblock %}
