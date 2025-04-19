@@ -2,202 +2,214 @@
 {% load static %}
 
 {% block content %}
-    <style>
-        :root {
-            --primary: #2a7de1;
-            --secondary: #1d3c78;
-            --accent: #d9534f;
-            --text: #333;
-            --bg-hero: url("{% static 'home/images/hero.jpg' %}");
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary: #2a7de1;
+        --secondary: #1d3c78;
+        --text: #333;
+        --bg-hero: url("{% static 'home/images/hero.jpg' %}");
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        font-family: 'Poppins', 'Segoe UI', sans-serif;
+        color: var(--text);
+    }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            color: var(--text);
-        }
+    .hero {
+        background: var(--bg-hero) center/cover no-repeat;
+        height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
 
-        .hero {
-            background: var(--bg-hero) center/cover no-repeat;
-            height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
+    .bg-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        pointer-events: none;
+    }
 
-        .bg-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-            pointer-events: none;
-        }
+    .hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+    }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-        }
+    .hero-content {
+        position: relative;
+        text-align: center;
+        color: #fff;
+        z-index: 2;
+        padding: 0 20px;
+        animation: fadeInUp 1s ease-out;
+    }
 
-        .hero-content {
-            position: relative;
-            text-align: center;
-            color: #fff;
-            padding: 0 20px;
-            animation: fadeInUp 1s ease-out;
-            z-index: 2;
-        }
+    .hero-title span {
+        display: inline-block;
+        font-size: 3.5rem;
+        font-weight: 700;
+        animation: floatLetter 2s ease-in-out infinite;
+    }
 
-        .hero-content h1 {
-            font-size: 3rem;
-            line-height: 1.2;
-            margin-bottom: 0.8rem;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
-        }
+    .hero-title span:nth-child(1) { animation-delay: 0s; }
+    .hero-title span:nth-child(2) { animation-delay: 0.1s; }
+    .hero-title span:nth-child(3) { animation-delay: 0.2s; }
+    .hero-title span:nth-child(4) { animation-delay: 0.3s; }
+    .hero-title span:nth-child(5) { animation-delay: 0.4s; }
+    .hero-title span:nth-child(6) { animation-delay: 0.5s; }
+    .hero-title span:nth-child(7) { animation-delay: 0.6s; }
+    .hero-title span:nth-child(8) { animation-delay: 0.7s; }
+    .hero-title span:nth-child(9) { animation-delay: 0.8s; }
+    .hero-title span:nth-child(10) { animation-delay: 0.9s; }
 
-        .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
+    @keyframes floatLetter {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
 
-        .hero-buttons a {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 12px 28px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+    .hero-content p {
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        animation: emphasize 2.5s ease-in-out infinite;
+    }
 
-        .hero-buttons a.primary {
-            background: var(--primary);
-            color: #fff;
-        }
+    @keyframes emphasize {
+        0% { opacity: 0.7; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.05); }
+        100% { opacity: 0.7; transform: scale(1); }
+    }
 
-        .hero-buttons a.secondary {
-            background: var(--secondary);
-            color: #fff;
-        }
+    .hero-buttons a {
+        display: inline-block;
+        margin: 0 10px;
+        padding: 12px 28px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background-color: var(--primary);
+        color: white;
+    }
 
-        .hero-buttons a.primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(42, 125, 225, 0.4);
-        }
+    .hero-buttons a:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(42, 125, 225, 0.4);
+    }
 
-        .hero-buttons a.secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(29, 60, 120, 0.4);
-        }
+    .scroll-down {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 3.2rem;
+        color: white;
+        animation: bounce 2s infinite;
+        z-index: 2;
+    }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
+    @keyframes bounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(-15px); }
+    }
 
-        .feature-card {
-            background: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
+    .feature-card {
+        background: #fff;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fadeInUp 1s ease-out;
+    }
 
-        .feature-card img {
-            width: 60px;
-            margin-bottom: 15px;
-        }
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
 
-        .feature-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--secondary);
-        }
+    .feature-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--secondary);
+    }
 
-        .feature-card p {
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
+    .feature-card p {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
 
-        .home-footer {
-            text-align: center;
-            padding: 30px 20px;
-            background: #f9f9f9;
-            margin-top: 60px;
-            font-size: 0.9rem;
-            color: #666;
-        }
-    </style>
+    .home-footer {
+        text-align: center;
+        padding: 30px 20px;
+        background: #f9f9f9;
+        margin-top: 60px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+</style>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1>TravelMate</h1>
-            <p>Plan smarter. Pack lighter. Travel better.</p>
-            <div class="hero-buttons">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'trip_list' %}" class="primary">My Trips</a>
-                    <a href="{% url 'create_trip' %}" class="secondary">New Trip</a>
-                {% else %}
-                    <a href="{% url 'signup' %}" class="primary">Get Started</a>
-                    <a href="{% url 'login' %}" class="secondary">Login</a>
-                {% endif %}
-            </div>
+<header class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <span>T</span><span>r</span><span>a</span><span>v</span><span>e</span><span>l</span><span>M</span><span>a</span><span>t</span><span>e</span>
+        </h1>
+        <p>Plan smarter. Pack lighter. Travel better.</p>
+        <div class="hero-buttons">
+            {% if user.is_authenticated %}
+                <a href="{% url 'trip_list' %}">My Trips</a>
+                <a href="{% url 'create_trip' %}">New Trip</a>
+            {% else %}
+                <a href="{% url 'signup' %}">Get Started</a>
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
         </div>
-        <video class="bg-video" autoplay muted loop playsinline>
-            <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </header>
+    </div>
+    <div class="scroll-down">⬇</div>
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</header>
 
-    <main>
-        <section class="features">
-            <div class="feature-card">
-                <img src="{% static 'home/icons/outfit.svg' %}" alt="Outfit Suggestions">
-                <h3>Outfit Suggestions</h3>
-                <p>Receive customized outfit recommendations based on live weather data.</p>
-            </div>
-            <div class="feature-card">
-                <img src="{% static 'home/icons/packing.svg' %}" alt="Smart Packing">
-                <h3>Smart Packing</h3>
-                <p>Auto-generate packing lists and tweak them to your personal needs.</p>
-            </div>
-            <div class="feature-card">
-                <img src="{% static 'home/icons/local.svg' %}" alt="Local Tips">
-                <h3>Local Tips</h3>
-                <p>Discover essential cultural and safety tips tailored to your destination.</p>
-            </div>
-        </section>
-    </main>
+<main>
+    <section class="features">
+        <div class="feature-card">
+            <h3>👕 Outfit Suggestions</h3>
+            <p>Receive customized outfit recommendations based on live weather data.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🧳 Smart Packing</h3>
+            <p>Auto-generate packing lists and tweak them to your personal needs.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🌍 Local Tips</h3>
+            <p>Discover essential cultural and safety tips tailored to your destination.</p>
+        </div>
+    </section>
+</main>
 {% endblock %}
