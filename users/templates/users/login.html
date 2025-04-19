@@ -115,14 +115,14 @@
 
 <div class="auth-wrapper">
     <div class="auth-container">
-        <h2>Welcome back!</h2>
+        <h2>Log in to TravelMate</h2>
         <form method="post">
             {% csrf_token %}
             {% for field in form %}
                 {{ field.errors }}
                 <div>{{ field|add_class:"input-field" }}</div>
             {% endfor %}
-            <button type="submit">Log In</button>
+            <button type="submit">Sign in</button>
         </form>
 
         <div class="footer-link">

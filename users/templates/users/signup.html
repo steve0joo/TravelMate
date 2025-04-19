@@ -128,17 +128,17 @@
 
     <div class="auth-wrapper">
         <div class="auth-container">
-            <h2>Create TravelMate Account</h2>
+            <h2>Create your account</h2>
             <form method="post">
                 {% csrf_token %}
                 {% for field in form %}
                     {{ field.errors }}
                     {{ field|add_class:"input-field" }}
                 {% endfor %}
-                <button type="submit">Register</button>
+                <button type="submit">Create account</button>
             </form>
             <div class="footer-link">
-                Already have an account? <a href="{% url 'login' %}">Log in</a>
+                Already have an account? <a href="{% url 'login' %}">Sign in</a>
             </div>
 
             <div style="text-align:center; margin: 20px 0;">OR</div>
