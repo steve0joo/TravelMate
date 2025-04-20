@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from trips.utils import generate_packing_list
+from trips.utils import generate_packing_list, get_weather_forecast
 from .models import PackingItem, Trip
 from .forms import TripForm
 from django.shortcuts import get_object_or_404
@@ -102,6 +102,7 @@ def trip_list(request):
 def trip_detail(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
     photo_url = None
+    recommendations = []
 
     try:
         response = requests.get(
@@ -120,10 +121,32 @@ def trip_detail(request, trip_id):
     except Exception as e:
         print(f"Google Places API error: {e}")
 
+    weather = []
+    try:
+        raw_weather = get_weather_forecast(trip.destination, trip.start_date, trip.end_date)
+        for day in raw_weather:
+            icon = day.get("icon", "").lower()
+            if "rain" in icon:
+                day["emoji"] = "🌧️"
+            elif "snow" in icon:
+                day["emoji"] = "❄️"
+            elif "clear" in icon:
+                day["emoji"] = "☀️"
+            elif "cloud" in icon:
+                day["emoji"] = "☁️"
+            elif "wind" in icon:
+                day["emoji"] = "🌬️"
+            else:
+                day["emoji"] = "🌡️"
+            weather.append(day)
+    except Exception as e:
+        print(f"Weather API error: {e}")
+
     return render(request, 'trips/trip_detail.html', {
         'trip': trip,
         'photo_url': photo_url,
-        'recommendations': recommendations
+        'recommendations': recommendations,
+        'weather': weather,
     })
 
 @login_required
