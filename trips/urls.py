@@ -14,4 +14,5 @@ urlpatterns = [
     path('shared/<str:share_token>/', shared_trip_view, name='shared_trip'),
     path('download/<int:trip_id>/', views.download_trip_txt, name='download_trip'),
     path('share/<int:trip_id>/', views.share_trip, name='share_trip'),
+    path('<int:trip_id>/weather/', views.weather_view, name='weather'),
 ]

@@ -16,6 +16,8 @@ from .models import Trip
 
 from django.http import HttpResponse
 from .models import Trip, PackingItem
+from .util.weather import geocode, fetch_forecast, code_to_description, suggest_outfit
+from datetime import date
 
 import requests
 from .utils import get_place_recommendations
@@ -115,15 +117,66 @@ def trip_detail(request, trip_id):
     except Exception as e:
         print(f"Unsplash API error: {e}")
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     try:
         recommendations = get_place_recommendations(trip.destination, trip.trip_type, max_results=3)
     except Exception as e:
         print(f"Google Places API error: {e}")
+=======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+    forecast = []
+    try:
+        lat, lon = geocode(trip.destination)
+        if lat is not None:
+            data = fetch_forecast(lat, lon)
+            daily = data.get('daily', {})
+            dates = daily.get('time', [])
+            max_temps = daily.get('temperature_2m_max', [])
+            min_temps = daily.get('temperature_2m_min', [])
+            codes = daily.get('weathercode', [])
+
+            for d, tmax, tmin, code in zip(dates, max_temps, min_temps, codes):
+                day_date = date.fromisoformat(d)
+                if trip.start_date <= day_date <= trip.end_date:
+                    forecast.append({
+                        'date': day_date,
+                        'min_temp': tmin,
+                        'max_temp': tmax,
+                        'description': code_to_description(code),
+                        'outfit': suggest_outfit(tmax),
+                    })
+    except Exception as e:
+        # fail silently if something goes wrong
+        print("Open‑Meteo error:", e)
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
     return render(request, 'trips/trip_detail.html', {
         'trip': trip,
         'photo_url': photo_url,
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         'recommendations': recommendations
+=======
+        'forecast': forecast,
+>>>>>>> Stashed changes
+=======
+        'forecast': forecast,
+>>>>>>> Stashed changes
+=======
+        'forecast': forecast,
+>>>>>>> Stashed changes
     })
 
 @login_required
@@ -186,3 +239,35 @@ def toggle_public_trip(request, trip_id):
     trip.is_public = not trip.is_public
     trip.save()
     return redirect('trip_detail', trip_id=trip.id)
+
+@login_required
+def weather_view(request, trip_id):
+    trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+    forecast = []
+
+    try:
+        lat, lon = geocode(trip.destination)
+        if lat is not None:
+            data = fetch_forecast(lat, lon)
+            daily = data.get('daily', {})
+            for d_str, tmax, tmin, code in zip(
+                    daily.get('time', []),
+                    daily.get('temperature_2m_max', []),
+                    daily.get('temperature_2m_min', []),
+                    daily.get('weathercode', []),
+                ):
+                d = date.fromisoformat(d_str)
+                forecast.append({
+                    'date': d,
+                    'min': tmin,
+                    'max': tmax,
+                    'desc': code_to_description(code),
+                    'outfit': suggest_outfit(tmax),
+                })
+    except Exception:
+        pass
+
+    return render(request, 'trips/weather.html', {
+        'trip': trip,
+        'forecast': forecast,
+    })
