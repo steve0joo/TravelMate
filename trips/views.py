@@ -20,7 +20,6 @@ from .util.weather import geocode, fetch_forecast, code_to_description, suggest_
 from datetime import date
 
 import requests
-from .utils import get_place_recommendations
 
 def share_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id)
@@ -116,19 +115,10 @@ def trip_detail(request, trip_id):
             photo_url = data['results'][0]['urls']['regular']
     except Exception as e:
         print(f"Unsplash API error: {e}")
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     try:
         recommendations = get_place_recommendations(trip.destination, trip.trip_type, max_results=3)
     except Exception as e:
         print(f"Google Places API error: {e}")
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     forecast = []
     try:
         lat, lon = geocode(trip.destination)
@@ -153,30 +143,10 @@ def trip_detail(request, trip_id):
     except Exception as e:
         # fail silently if something goes wrong
         print("Open‑Meteo error:", e)
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
     return render(request, 'trips/trip_detail.html', {
         'trip': trip,
         'photo_url': photo_url,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        'recommendations': recommendations
-=======
         'forecast': forecast,
->>>>>>> Stashed changes
-=======
-        'forecast': forecast,
->>>>>>> Stashed changes
-=======
-        'forecast': forecast,
->>>>>>> Stashed changes
     })
 
 @login_required
