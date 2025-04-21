@@ -185,24 +185,6 @@
 
             </div>
             <br>
-            <div class="weather-card">
-                <h3>🌦 Weather Forecast</h3>
-                {% if weather %}
-                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
-                        {% for day in weather %}
-                            <div style="flex: 1 1 200px; background: #f5f8ff; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center;">
-                                <strong>{{ day.datetime }}</strong><br>
-                                <span style="font-size: 1.2em;">{{ day.tempmin }}°F – {{ day.tempmax }}°F</span><br>
-                                <span style="font-size: 1.5em;">{{ day.emoji }}</span><br>
-                                <em>{{ day.conditions }}</em>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <p>No weather data available for this trip.</p>
-                {% endif %}
-            </div>
-            <br>
             <div class="recommendation-card">
                 <h3 style="margin: 10px; padding-bottom: 15px">Location Recommendation</h3>
                 {% if recommendations %}
