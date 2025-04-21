@@ -18,6 +18,7 @@ from django.http import HttpResponse
 from .models import Trip, PackingItem
 from .util.weather import geocode, fetch_forecast, code_to_description, suggest_outfit
 from datetime import date
+from .utils import get_place_recommendations
 
 import requests
 
@@ -115,10 +116,13 @@ def trip_detail(request, trip_id):
             photo_url = data['results'][0]['urls']['regular']
     except Exception as e:
         print(f"Unsplash API error: {e}")
+
+    recommendations = []
     try:
         recommendations = get_place_recommendations(trip.destination, trip.trip_type, max_results=3)
     except Exception as e:
         print(f"Google Places API error: {e}")
+
     forecast = []
     try:
         lat, lon = geocode(trip.destination)
@@ -147,6 +151,7 @@ def trip_detail(request, trip_id):
         'trip': trip,
         'photo_url': photo_url,
         'forecast': forecast,
+        'recommendations': recommendations,
     })
 
 @login_required
