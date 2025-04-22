@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        .tips-list {
+            list-style: none;
+            padding: 0;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .tips-list li {
+            background: #eef6fb;
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .tips-list strong {
+            color: #0077cc;
+            margin-right: 8px;
+        }
+
+        .back-btn {
+            background-color: #2a7de1;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+    </style>
+
+    <div style="text-align:center; margin:40px 0;">
+        <h1 style="color:#1d3c78;">Local Tips for {{ trip.name }}</h1>
+        <p style="color:#666;">
+            {{ trip.destination }} — {{ trip.start_date }} to {{ trip.end_date }}
+        </p>
+    </div>
+
+    <ul class="tips-list">
+        {% for tip in tips %}
+            <li style="white-space: pre-line;">{{ tip }}</li>
+        {% endfor %}
+    </ul>
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{% url 'trip_detail' trip.id %}">
+            <button type="button" class="back-btn">🔙 Back to Trip</button>
+        </a>
+    </div>
+{% endblock %}

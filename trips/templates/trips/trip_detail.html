@@ -119,6 +119,7 @@
                 <a href="{% url 'trip_list' %}" class="btn btn-blue">⬅ Back to Trips</a>
                 <a href="{% url 'packing_list' trip.id %}" class="btn btn-blue">📦 Packing</a>
                 <a href="{% url 'weather' trip.id %}" class="btn btn-blue">☁️ Weather</a>
+                <a href="{% url 'localtips' trip.id %}" class="btn btn-blue">☁️ Local tips</a>
             </div>
             <div>
                 <a href="{% url 'download_trip' trip.id %}" class="btn btn-blue">📄 Download</a>
