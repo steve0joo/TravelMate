@@ -59,6 +59,15 @@
             margin-bottom: 10px;
         }
 
+        .trip-actions {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
         .trip-card .button,
         .trip-card a.button-link,
         .trip-card button {
@@ -67,8 +76,12 @@
             border-radius: 25px;
             text-decoration: none;
             padding: 10px 20px;
-            display: inline-block;
+            display: inline-flex;
             transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+            align-items: center;
+            white-space: nowrap;
+            height: auto;
+            width: auto;
         }
 
         .trip-card .button-link:hover,
@@ -91,21 +104,6 @@
         .btn-green {
             background-color: #26a69a;
             color: white;
-        }
-
-        .trip-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .trip-share-download {
-            margin-top: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
 
         @keyframes fadeIn {
@@ -151,39 +149,35 @@
 
         <div class="trip-card">
             <h2>{{ trip.name }}</h2>
-            <p><strong>Destination:</strong> {{ trip.destination }}</p>
-            <p><strong>Start Date:</strong> {{ trip.start_date }}</p>
-            <p><strong>End Date:</strong> {{ trip.end_date }}</p>
-            <div class="weather-forecast" style="max-width:800px;margin:40px auto;padding:20px;background:#f5f8fb;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-  <h3 style="text-align:center;color:#1d3c78;margin-bottom:15px;">Weather & Outfit Suggestions</h3>
-  <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:20px;">
-    {% for day in forecast %}
-      <div style="flex:1 1 120px;text-align:center;">
-        <p style="font-weight:600;">{{ day.date|date:"M j" }}</p>
-        <p style="margin:5px 0;color:#555;">{{ day.description }}</p>
-        <p style="margin:2px 0;font-size:0.9rem;">
-          {{ day.min_temp|floatformat:0 }}°C – {{ day.max_temp|floatformat:0 }}°C
-        </p>
-        <p style="margin-top:8px;font-style:italic;font-size:0.85rem;color:#555;">
-          {{ day.outfit }}
-        </p>
-      </div>
-    {% empty %}
-      <p style="text-align:center;color:#777;">No forecast available for these dates.</p>
-    {% endfor %}
-  </div>
-</div>
-
-                <div class="trip-share-download">
-                    <a href="{% url 'download_trip' trip.id %}" class="button-link btn-blue">📄 Download Trip Info</a>
-                    <a href="{% url 'share_trip' trip.id %}" class="button-link btn-green">📤 Share Trip</a>
+            <div>
+                <div>{{ trip.destination }}</div>
+                <div class="trip-dates">
+                    {{ trip.start_date }} <strong> — </strong> {{ trip.end_date }}
                 </div>
-            <div class="trip-actions">
-                <a href="{% url 'trip_list' %}" class="button-link btn-blue">⬅ Back to Trip List</a>
-                <a href="{% url 'packing_list' trip.id %}" class="button-link btn-blue">📦 View Packing List</a>
+            </div>
+            <div class="weather-forecast"
+                 style="max-width:800px;margin:40px auto;padding:20px;background:#f5f8fb;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+                <h3 style="text-align:center;color:#1d3c78;margin-bottom:15px;">Weather & Outfit Suggestions</h3>
+                <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:20px;">
+                    {% for day in forecast|slice:":3" %}
+                        <div style="flex:1 1 120px;text-align:center;">
+                            <p style="font-weight:600;">{{ day.date|date:"M j" }}</p>
+                            <p style="margin:5px 0;color:#555;">{{ day.description }}</p>
+                            <p style="margin:2px 0;font-size:0.9rem;">
+                                {{ day.min_temp|floatformat:0 }}°C – {{ day.max_temp|floatformat:0 }}°C
+                            </p>
+                            <p style="margin-top:8px;font-style:italic;font-size:0.85rem;color:#555;">
+                                {{ day.outfit }}
+                            </p>
+                        </div>
+                    {% empty %}
+                        <p style="text-align:center;color:#777;">No forecast available for these dates.</p>
+                    {% endfor %}
+
+                </div>
+                <br>
                 <a href="{% url 'weather' trip.id %}" class="button-link btn-blue">☁️ View Weather</a>
             </div>
-            <br>
             <div class="recommendation-card">
                 <h3 style="margin: 10px; padding-bottom: 15px">Location Recommendation</h3>
                 {% if recommendations %}
@@ -208,10 +202,19 @@
                     <p>No recommendations found.</p>
                 {% endif %}
             </div>
-        <form method="post" action="{% url 'delete_trip' trip.id %}" style="margin-top: 20px;">
+            <br>
+            <div class="trip-actions">
+                {#                <a href="{% url 'download_trip' trip.id %}" class="button-link btn-blue">📄 Download Trip Info</a>#}
+                <a href="{% url 'trip_list' %}" class="button-link btn-blue">⬅ Back to Trip List</a>
+                <a href="{% url 'share_trip' trip.id %}" class="button-link btn-green">📤 Share Trip</a>
+                <form method="post" action="{% url 'delete_trip' trip.id %} " style="margin: 0;">
                     {% csrf_token %}
                     <button type="submit" class="btn-red">🗑 Delete Trip</button>
                 </form>
+            </div>
+            <div class="trip-actions">
+                <a href="{% url 'packing_list' trip.id %}" class="button-link btn-blue">📦 View Packing List</a>
+            </div>
         </div>
     </div>
 {% endblock %}
