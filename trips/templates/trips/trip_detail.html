@@ -14,131 +14,91 @@
         }
 
         .trip-image {
-            max-width: 50%;
-            flex-shrink: 1;
-            flex: 1;
-            height: 100%;
-            display: flex;
-            align-items: stretch;
+            flex: 1 1 45%;
         }
-
         .trip-image img {
             width: 100%;
-            height: auto;
-            display: block;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            object-fit: contain;
+            object-fit: cover;
         }
 
         .trip-card {
-            flex: 1;
-            max-width: 500px;
-            background: #ffffff;
+            flex: 1 1 45%;
+            background: #fff;
             padding: 30px 25px;
             border-radius: 20px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
-            height: auto;
         }
-
         .trip-card h2 {
             color: #1d3c78;
             margin-bottom: 20px;
-            font-size: 24px;
+            font-size: 1.8rem;
             font-weight: 700;
-            transition: color 0.3s ease;
         }
-
-        .trip-card h2:hover {
-            color: #004b9e;
-        }
-
         .trip-card p {
-            font-size: 15px;
+            font-size: 0.95rem;
             margin-bottom: 10px;
         }
 
-        .trip-card .button,
-        .trip-card a.button-link,
-        .trip-card button {
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 25px;
-            text-decoration: none;
-            padding: 10px 20px;
+        .btn {
             display: inline-block;
-            transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+            margin: 5px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+            transition: transform 0.2s, box-shadow 0.3s;
         }
-
-        .trip-card .button-link:hover,
-        .trip-card button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
+        .btn-blue { background: #2a7de1; }
+        .btn-green { background: #26a69a; }
+        .btn-red { background: #e74c3c; border: none; }
 
-        .btn-red {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-        }
-
-        .btn-blue {
-            background-color: #2a7de1;
-            color: white;
-        }
-
-        .btn-green {
-            background-color: #26a69a;
-            color: white;
-        }
-
-        .trip-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .trip-share-download {
-            margin-top: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .weather-card {
-            flex: 1;
-            max-width: 500px;
-            background: #ffffff;
+        .weather-forecast {
+            max-width: 800px;
+            margin: 40px auto;
             padding: 30px 25px;
+            background: #fff;
             border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .weather-forecast h3 {
             text-align: center;
-            height: auto;
+            color: #1d3c78;
+            margin-bottom: 15px;
+        }
+        .weather-forecast .day-cards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .weather-forecast .day-card {
+            flex: 1 1 120px;
+            text-align: center;
+        }
+        .weather-forecast .day-card p {
+            margin: 5px 0;
+            color: #555;
         }
 
         .recommendation-card {
-            flex: 1;
-            max-width: 500px;
-            background: #ffffff;
+            max-width: 800px;
+            margin: 40px auto;
             padding: 30px 25px;
+            background: #fff;
             border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            height: auto;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .recommendation-card h3 {
+            color: #1d3c78;
+            margin-bottom: 15px;
         }
     </style>
 
@@ -149,94 +109,65 @@
             {% endif %}
         </div>
 
-<<<<<<< Updated upstream
-=======
-                <form method="post" action="{% url 'delete_trip' trip.id %}" style="margin-top: 20px;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-red">🗑 Delete Trip</button>
-                </form>
->>>>>>> Stashed changes
         <div class="trip-card">
             <h2>{{ trip.name }}</h2>
             <p><strong>Destination:</strong> {{ trip.destination }}</p>
             <p><strong>Start Date:</strong> {{ trip.start_date }}</p>
             <p><strong>End Date:</strong> {{ trip.end_date }}</p>
-            <div class="weather-forecast" style="max-width:800px;margin:40px auto;padding:20px;background:#f5f8fb;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-  <h3 style="text-align:center;color:#1d3c78;margin-bottom:15px;">Weather & Outfit Suggestions</h3>
-  <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:20px;">
-    {% for day in forecast %}
-      <div style="flex:1 1 120px;text-align:center;">
-        <p style="font-weight:600;">{{ day.date|date:"M j" }}</p>
-        <p style="margin:5px 0;color:#555;">{{ day.description }}</p>
-        <p style="margin:2px 0;font-size:0.9rem;">
-          {{ day.min_temp|floatformat:0 }}°C – {{ day.max_temp|floatformat:0 }}°C
-        </p>
-        <p style="margin-top:8px;font-style:italic;font-size:0.85rem;color:#555;">
-          {{ day.outfit }}
-        </p>
-      </div>
-    {% empty %}
-      <p style="text-align:center;color:#777;">No forecast available for these dates.</p>
-    {% endfor %}
-  </div>
-</div>
 
-<<<<<<< Updated upstream
-                <div class="trip-share-download">
-=======
-                <div class="trip-actions">
-                    <a href="{% url 'trip_list' %}" class="button-link btn-blue">⬅ Back to Trip List</a>
-                    <a href="{% url 'packing_list' trip.id %}" class="button-link btn-blue">📦 View Packing List</a>
+            <div>
+                <a href="{% url 'trip_list' %}" class="btn btn-blue">⬅ Back to Trips</a>
+                <a href="{% url 'packing_list' trip.id %}" class="btn btn-blue">📦 Packing</a>
+                <a href="{% url 'weather' trip.id %}" class="btn btn-blue">☁️ Weather</a>
+            </div>
+            <div>
+                <a href="{% url 'download_trip' trip.id %}" class="btn btn-blue">📄 Download</a>
+                <a href="{% url 'share_trip' trip.id %}" class="btn btn-green">📤 Share</a>
+            </div>
+            <div class="weather-forecast">
+        <h3>Weather & Outfit Suggestions</h3>
+        <div class="day-cards">
+            {% for day in forecast %}
+                <div class="day-card">
+                    <p style="font-weight:600;">{{ day.date|date:"M j" }}</p>
+                    <p>{{ day.description }}</p>
+                    <p>{{ day.min_temp|floatformat:0 }}°C – {{ day.max_temp|floatformat:0 }}°C</p>
+                    <p style="font-style:italic;">{{ day.outfit }}</p>
                 </div>
-             <div class="trip-share-download">
->>>>>>> Stashed changes
-                    <a href="{% url 'download_trip' trip.id %}" class="button-link btn-blue">📄 Download Trip Info</a>
-                    <a href="{% url 'share_trip' trip.id %}" class="button-link btn-green">📤 Share Trip</a>
-                </div>
-            <div class="trip-actions">
-                <a href="{% url 'trip_list' %}" class="button-link btn-blue">⬅ Back to Trip List</a>
-                <a href="{% url 'packing_list' trip.id %}" class="button-link btn-blue">📦 View Packing List</a>
-                <a href="{% url 'weather' trip.id %}" class="button-link btn-blue">☁️ View Weather</a>
-<<<<<<< Updated upstream
-
-=======
-            </div>
-            <br>
-            <div class="weather-card">
-                <p><strong>weather1</strong></p>
-                <p><strong>weather2</strong></p>
-                <p><strong>weather3</strong></p>
->>>>>>> Stashed changes
-            </div>
-            <br>
-            <div class="recommendation-card">
-                <h3 style="margin: 10px; padding-bottom: 15px">Location Recommendation</h3>
-                {% if recommendations %}
-                    {% for place in recommendations %}
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <p style="margin: 0; font-weight: 600; color: #1d3c78;">
-                                <a href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}"
-                                   target="_blank"
-                                   style="text-decoration: none; color: #1d3c78;">
-                                    {{ place.name }}
-                                </a>
-                            </p>
-                            <div style="display: flex; align-items: center; gap: 4px;">
-                                <img src="{% static 'icons/star.png' %}" alt="Star" style="width: 14px;">
-                                <span style="font-size: 14px; color: #444;">{{ place.rating }}</span>
-                            </div>
-                        </div>
-                        {% if not forloop.last %}
-                            <hr>{% endif %}
-                    {% endfor %}
-                {% else %}
-                    <p>No recommendations found.</p>
-                {% endif %}
-            </div>
-        <form method="post" action="{% url 'delete_trip' trip.id %}" style="margin-top: 20px;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-red">🗑 Delete Trip</button>
-                </form>
+            {% empty %}
+                <p style="text-align:center;color:#777;">No forecast available for these dates.</p>
+            {% endfor %}
         </div>
     </div>
+
+    <!-- Location Recommendations -->
+    <div class="recommendation-card">
+        <h3>Location Recommendations</h3>
+        {% if recommendations %}
+            {% for place in recommendations %}
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}"
+                       target="_blank"
+                       style="font-weight:600;color:#1d3c78;text-decoration:none;">
+                        {{ place.name }}
+                    </a>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                        <img src="{% static 'icons/star.png' %}" alt="Star" style="width:14px;">
+                        <span style="font-size:14px;color:#444;">{{ place.rating }}</span>
+                    </div>
+                </div>
+                {% if not forloop.last %}<hr>{% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No recommendations found.</p>
+        {% endif %}
+    </div>
+            <form method="post" action="{% url 'delete_trip' trip.id %}" style="margin-top:20px;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-red">🗑 Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dynamic Weather Forecast -->
 {% endblock %}
