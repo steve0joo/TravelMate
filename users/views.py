@@ -35,6 +35,9 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+def spotlight_view(request):
+    return render(request, 'users/spotlight.html')
+
 @login_required
 def profile_view(request):
     return render(request, 'users/profile.html', {'user': request.user})
