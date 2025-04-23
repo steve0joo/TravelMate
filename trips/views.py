@@ -117,7 +117,7 @@ def trip_detail(request, trip_id):
     try:
         response = requests.get(
             'https://api.unsplash.com/search/photos',
-            params={'query': trip.destination, 'per_page': 1, 'orientation': 'portrait'},
+            params={'query': trip.destination, 'per_page': 1, 'orientation': 'landscape'},
             headers={'Authorization': 'Client-ID gR0mr2UCMNC_f50G9cuFxHBR38lI0Wpfrxt2ZFhhfGA'}  # ← insert your key here
         )
         data = response.json()
