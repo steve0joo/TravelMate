@@ -10,8 +10,8 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50%;
-            min-width: 600px;
+            width: 70%;
+            min-width: 800px;
 
             background: #fdfaf6;
             padding: 12px 24px;
@@ -26,8 +26,8 @@
         }
 
         .header.shrink {
-            width: 30%;
-            min-width: 590px;
+            width: 50%;
+            min-width: 800px;
         }
 
         .header-inner {
@@ -214,6 +214,10 @@
                    style="margin-right: 20px; text-decoration: none; color: #333;">
                     New Trip
                 </a>
+                <a class="headerButtons" href="{% url 'reset_user' %}"
+                    style="margin-right: 20px; text-decoration: none; color: #333;">
+                    Profile
+                </a>
                 <a class="signOutButton" href="{% url 'logout' %}"
                    style="margin-right: 20px; text-decoration: none; color: #fff;">
                     Sign out
@@ -244,17 +248,14 @@
         <div style="flex: 1 1 160px;">
             <h3 style="color: #fff; margin-bottom: 14px;">Quick Links</h3>
             <ul style="list-style: none; padding: 0; margin: 0;">
-                <li style="margin-bottom: 8px;"><a href="{% url 'home' %}" style="color: #666; text-decoration: none;">Home</a>
-                </li>
-                <li style="margin-bottom: 8px;"><a href="{% url 'trip_list' %}"
-                                                   style="color: #666; text-decoration: none;">My
-                    Trips</a></li>
-                <li style="margin-bottom: 8px;"><a href="{% url 'create_trip' %}"
-                                                   style="color: #666; text-decoration: none;">Plan
-                    a Trip</a></li>
-                <li style="margin-bottom: 8px;"><a href="{% url 'leave_feedback' %}"
-                                                   style="color: #666; text-decoration: none;">Feedback</a></li>
-            </ul>
+                <li style="margin-bottom: 8px;"><a href="{% url 'home' %}" style="color: #666; text-decoration: none;">Home</a></li>
+                <li style="margin-bottom: 8px;"><a href="{% url 'trip_list' %}" style="color: #666; text-decoration: none;">My Trips</a></li>
+                <li style="margin-bottom: 8px;"><a href="{% url 'create_trip' %}" style="color: #666; text-decoration: none;">Plan a Trip</a></li>
+                <li style="margin-bottom: 8px;"><a href="{% url 'leave_feedback' %}" style="color: #666; text-decoration: none;">Feedback</a></li>
+                {% if user.is_authenticated %}
+                <li style="margin-bottom: 8px;"><a href="{% url 'reset_user' %}" style="color: #666; text-decoration: none;">Profile</a></li>
+                {% endif %}
+            </ul>            
         </div>
         <div style="flex: 1 1 200px;">
             <h3 style="color: #fff; margin-bottom: 14px;">Contact</h3>
