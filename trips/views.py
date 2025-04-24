@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
+from django.conf import settings
 from trips.utils import generate_packing_list
 from .models import PackingItem, Trip
 from .forms import TripForm
@@ -21,6 +21,9 @@ from datetime import date
 from .utils import get_place_recommendations
 
 import requests
+from openai import OpenAI
+import os
+import re
 
 def share_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id)
@@ -42,6 +45,7 @@ def share_trip(request, trip_id):
         'share_url': request.build_absolute_uri()
     })
 
+
 def download_trip_txt(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
 
@@ -62,24 +66,28 @@ Packing List:
     response['Content-Disposition'] = f'attachment; filename="{trip.name}_details.txt"'
     return response
 
+
 def shared_trip_view(request, share_token):
     trip = get_object_or_404(Trip, share_token=share_token, is_public=True)
     return render(request, 'trips/shared_trip_detail.html', {'trip': trip})
+
 
 def public_trip_view(request, token):
     trip = get_object_or_404(Trip, share_token=token, is_public=True)
     return render(request, 'trips/public_trip.html', {'trip': trip})
 
+
 @login_required
 def delete_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
-    
+
     if request.method == 'POST':
         trip.delete()
         messages.success(request, 'Trip deleted successfully.')
         return redirect('trip_list')
-    
+
     return render(request, 'trips/confirm_delete.html', {'trip': trip})
+
 
 @login_required
 def create_trip(request):
@@ -93,6 +101,7 @@ def create_trip(request):
     else:
         form = TripForm()
     return render(request, 'trips/create_trip.html', {'form': form})
+
 
 @login_required
 def trip_list(request):
@@ -108,7 +117,7 @@ def trip_detail(request, trip_id):
     try:
         response = requests.get(
             'https://api.unsplash.com/search/photos',
-            params={'query': trip.destination, 'per_page': 1, 'orientation': 'portrait'},
+            params={'query': trip.destination, 'per_page': 1, 'orientation': 'landscape'},
             headers={'Authorization': 'Client-ID gR0mr2UCMNC_f50G9cuFxHBR38lI0Wpfrxt2ZFhhfGA'}  # ← insert your key here
         )
         data = response.json()
@@ -154,6 +163,7 @@ def trip_detail(request, trip_id):
         'recommendations': recommendations,
     })
 
+
 @login_required
 def packing_list(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
@@ -171,6 +181,7 @@ def packing_list(request, trip_id):
 
     items = trip.packing_items.all().order_by('is_packed', 'name')
     return render(request, 'trips/packing_list.html', {'trip': trip, 'items': items})
+
 
 @login_required
 def update_packing_list(request, trip_id):
@@ -195,6 +206,7 @@ def update_packing_list(request, trip_id):
 
     return redirect('packing_list', trip_id=trip.id)
 
+
 @login_required
 def leave_feedback(request):
     if request.method == 'POST':
@@ -208,12 +220,14 @@ def leave_feedback(request):
         form = FeedbackForm()
     return render(request, 'trips/leave_feedback.html', {'form': form})
 
+
 @login_required
 def toggle_public_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
     trip.is_public = not trip.is_public
     trip.save()
     return redirect('trip_detail', trip_id=trip.id)
+
 
 @login_required
 def weather_view(request, trip_id):
@@ -230,7 +244,7 @@ def weather_view(request, trip_id):
                     daily.get('temperature_2m_max', []),
                     daily.get('temperature_2m_min', []),
                     daily.get('weathercode', []),
-                ):
+            ):
                 d = date.fromisoformat(d_str)
                 forecast.append({
                     'date': d,
@@ -245,4 +259,47 @@ def weather_view(request, trip_id):
     return render(request, 'trips/weather.html', {
         'trip': trip,
         'forecast': forecast,
+    })
+
+
+@login_required
+def localtips_view(request, trip_id):
+    trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+    tips = "Local tips not available."
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
+    try:
+        prompt = (
+            f"Provide exactly 5 helpful local travel tips for someone visiting {trip.destination}.\n"
+            f"Each tip should appear in this two-line format:\n"
+            f"💡 Transportation Tip\n"
+            f": Use the subway for fast travel.\n"
+            f"Use categories like Transportation Tip, Safety Tip, Local Custom, Cultural Etiquette, or Must-Know Tip."
+        )
+
+        system_msg = (
+            "You're a helpful travel assistant. Format each of the 5 local tips on two lines like this:\n"
+            "💡 Tip Category\n: Explanation text. No long paragraphs. No bullet points."
+        )
+
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=300,
+            temperature=0.7,
+        )
+
+        raw_tips = response.choices[0].message.content.strip()
+        tips_list = re.findall(r"(💡.*?\n:.*?)(?:\n|$)", raw_tips, re.DOTALL)
+
+    except Exception as e:
+        print("OpenAI error:", e)
+        tips = "We couldn’t fetch tips at the moment. Please try again later."
+
+    return render(request, 'trips/localtips.html', {
+        'trip': trip,
+        'tips': tips_list,
     })

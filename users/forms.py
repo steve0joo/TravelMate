@@ -1,6 +1,17 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
+from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
+
+class UserResetForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    pass  # You can customize this later if needed
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
