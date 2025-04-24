@@ -52,16 +52,30 @@
         margin-top: 30px;
     }
 
-    .link-row a {
-        padding: 10px 20px;
-        border-radius: 25px;
-        background: #f4f7fc;
-        text-decoration: none;
-        color: #1d3c78;
-        font-weight: 500;
-        border: 1px solid #d4e6fb;
-        transition: all 0.2s ease;
-    }
+        .trip-actions {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .trip-card .button,
+        .trip-card a.button-link,
+        .trip-card button {
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 25px;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-flex;
+            transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+            align-items: center;
+            white-space: nowrap;
+            height: auto;
+            width: auto;
+        }
 
     .link-row a:hover {
         background: #e0efff;
@@ -100,42 +114,115 @@
         color: #444;
     }
 
-    .delete-btn {
-        background: #f44336;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .delete-btn:hover {
-        background: #d32f2f;
-    }
-</style>
+        .weather-card {
+            flex: 1;
+            max-width: 500px;
+            background: #ffffff;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: auto;
+        }
 
-<!-- HERO SECTION -->
-<div class="hero">
-    <h1>{{ trip.name }}</h1>
-</div>
+        .recommendation-card {
+            flex: 1;
+            max-width: 500px;
+            background: #ffffff;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: auto;
+        }
+    </style>
 
-<div class="container">
-    <!-- TRIP INFO CARD -->
-    <div class="card trip-meta">
-        <h2>Trip Overview</h2>
-        <p><strong>Destination:</strong> {{ trip.destination }}</p>
-        <p><strong>Start Date:</strong> {{ trip.start_date }}</p>
-        <p><strong>End Date:</strong> {{ trip.end_date }}</p>
+    <div class="trip-container">
+        <div class="trip-image">
+            {% if photo_url %}
+                <img src="{{ photo_url }}" alt="Photo of {{ trip.destination }}">
+            {% endif %}
+        </div>
 
-        <div class="link-row">
-            <a href="{% url 'trip_list' %}">← Back to Trips</a>
-            <a href="{% url 'packing_list' trip.id %}">Packing List</a>
-            <a href="{% url 'weather' trip.id %}">Weather</a>
-            <a href="{% url 'localtips' trip.id %}">Local Tips</a>
-            <a href="{% url 'download_trip' trip.id %}">Download</a>
-            <a href="{% url 'share_trip' trip.id %}">Share</a>
+        <div class="trip-card">
+            <h2>{{ trip.name }}</h2>
+            <div>
+                <div>{{ trip.destination }}</div>
+                <div class="trip-dates">
+                    {{ trip.start_date }} <strong> — </strong> {{ trip.end_date }}
+                </div>
+            </div>
+            <div class="weather-forecast"
+                 style="max-width:800px;margin:40px auto;padding:20px;background:#f5f8fb;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+                <h3 style="text-align:center;color:#1d3c78;margin-bottom:15px;">Weather & Outfit Suggestions</h3>
+                <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:20px;">
+                    {% for day in forecast|slice:":3" %}
+                        <div style="flex:1 1 120px;text-align:center;">
+                            <p style="font-weight:600;">{{ day.date|date:"M j" }}</p>
+                            <p style="margin:5px 0;color:#555;">{{ day.description }}</p>
+                            <p style="margin:2px 0;font-size:0.9rem;">
+                                {{ day.min_temp|floatformat:0 }}°C – {{ day.max_temp|floatformat:0 }}°C
+                            </p>
+                            <p style="margin-top:8px;font-style:italic;font-size:0.85rem;color:#555;">
+                                {{ day.outfit }}
+                            </p>
+                        </div>
+                    {% empty %}
+                        <p style="text-align:center;color:#777;">No forecast available for these dates.</p>
+                    {% endfor %}
+
+                </div>
+                <br>
+                <a href="{% url 'weather' trip.id %}" class="button-link btn-blue">☁️ View Weather</a>
+            </div>
+            <div class="recommendation-card">
+                <h3 style="margin: 10px; padding-bottom: 15px">Location Recommendation</h3>
+                {% if recommendations %}
+                    {% for place in recommendations %}
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <p style="margin: 0; font-weight: 600; color: #1d3c78;">
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}"
+                                   target="_blank"
+                                   style="text-decoration: none; color: #1d3c78;">
+                                    {{ place.name }}
+                                </a>
+                            </p>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <img src="{% static 'icons/star.png' %}" alt="Star" style="width: 14px;">
+                                <span style="font-size: 14px; color: #444;">{{ place.rating }}</span>
+                            </div>
+                        </div>
+                        {% if not forloop.last %}
+                            <hr>{% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p>No recommendations found.</p>
+                {% endif %}
+            </div>
+            <br>
+            <div class="trip-actions">
+                {#                <a href="{% url 'download_trip' trip.id %}" class="button-link btn-blue">📄 Download Trip Info</a>#}
+                <a href="{% url 'trip_list' %}" class="button-link btn-blue">⬅ Back to Trip List</a>
+                <a href="{% url 'share_trip' trip.id %}" class="button-link btn-green">📤 Share Trip</a>
+                <form method="post" action="{% url 'delete_trip' trip.id %} " style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-red">🗑 Delete Trip</button>
+                </form>
+            </div>
+            <div class="trip-actions">
+                <a href="{% url 'packing_list' trip.id %}" class="button-link btn-blue">📦 View Packing List</a>
+            </div>
         </div>
     </div>
 

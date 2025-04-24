@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+    .profile-button {
+      display: inline-block;
+      margin: 14px auto;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .profile-button.blue {
+      background-color: #2a7de1;
+      color: white;
+    }
+
+    .spotlight-article {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 0 20px;
+    line-height: 1.65;
+    font-size: 1rem;
+    color: #333;
+    }
+
+    .spotlight-header h1 {
+    font-size: 2.25rem;
+    margin-bottom: 0.25em;
+    color: #1d3c78;
+    }
+
+    .spotlight-meta {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 1.5em;
+    }
+
+    .spotlight-article figure {
+    margin: 2em 0;
+    text-align: center;
+    }
+
+    .spotlight-article figure img {
+    max-width: 100%;
+    border-radius: 12px;
+    }
+
+    .spotlight-article figure figcaption {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 0.5em;
+    }
+
+    .spotlight-article h2 {
+    font-size: 1.5rem;
+    margin-top: 2em;
+    color: #2a7de1;
+    }
+
+    .spotlight-article p,
+    .spotlight-article ol {
+    margin-top: 1em;
+    }
+
+    .spotlight-article ol {
+    padding-left: 1.25em;
+    }
+
+    .spotlight-article .profile-button {
+    margin-top: 1.5em;
+    }
+</style>
+<article class="spotlight-article">
+
+  <header class="spotlight-header">
+    <h1>Spotlight for 04/21 - Bali, Indonesia</h1>
+    <p class="spotlight-meta">By Phillip Abraham • April 21, 2025</p>
+    <figure>
+      <img src="{% static 'photos/bali1.jpg' %}"
+           alt="Besakih, Karangasem Regency, Bali, Indonesia - Photo by Reena Yadav">
+      <figcaption>Besakih, Karangasem Regency, Bali, Indonesia - Photo by Reena Yadav</figcaption>
+    </figure>
+  </header>
+
+  <section>
+    <h2>Bali is more than beaches!</h2>
+    <p>
+      You may know Bali, Indonesia for its beautiful beaches, but there's so much more to see and do in this lively province! We've gathered a few places that are perfect for your next trip. Whether you're looking to immerse yourself in cultural activities, or simply relax on the beach, Bali has something for everyone. Take a look at our top picks for places to visit! 
+    </p>
+  </section>
+
+  <section>
+    <h2>Places to visit in Bali</h2>
+    <ol>
+      <li><strong>Penglipuran Cultural Village:</strong> If you want to immerse yourself in a cultural experience, visit Penglipuran Cultural Village and take a tour of the many idylic temples!</li>
+      <li><strong>Denpasar:</strong> This beautiful city is the capital of Bali, and is the hub of the province! Go visit one of the bustling markets, or admire the natural beauty of this city! </li>
+      <li><strong>Sanur Beach:</strong> Wake up early enough, and you might get a chance to see the gorgeous sunrise over Sanur Beach!</li>
+    </ol>
+    <figure>
+      <img src="{% static 'photos/bali2.jpg' %}" alt="Sanur Beach, Bali, Indonesia">
+      <figcaption>Sanur Beach, Bali, Indonesia</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Start Planning Your Trip</h2>
+    <p>
+      Ready to plan your next trip to Bali? TravelMate has you covered! To plan your trip, just click the button below, and put in your destination! We'll handle all the hard work for you.
+    </p>
+    <a href="{% url 'create_trip' %}" class="profile-button blue">➕ Plan Your Trip to Bali</a>
+  </section>
+
+</article>
+
+
+{% endblock %}

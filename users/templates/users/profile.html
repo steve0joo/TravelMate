@@ -25,6 +25,9 @@
     <a href="{% url 'create_trip' %}" class="profile-button blue">Add New Trip</a>
     <a href="{% url 'trip_list' %}" class="profile-button blue">View My Trips</a>
     <a href="{% url 'reset_user' %}" class="profile-button blue">Reset Account Info</a>  <!-- 👈 New link added -->
+    <a href="{% url 'spotlight' %}" class="profile-button green">
+      🌟 Daily Destination Spotlight
+    </a>
 
     <div style="font-size: 14px; margin-top: 24px;">
       <a href="{% url 'logout' %}" style="color: #2a7de1; text-decoration: none; font-weight: 500;">Log out</a>
@@ -57,6 +60,15 @@
     .profile-button.blue {
       background-color: #2a7de1;
       color: white;
+    }
+
+    .profile-button.green {
+      background-color: #1adaba;
+      color: white;
+    }
+
+    .profile-button.green:hover {
+      background-color: #1fa38d;
     }
 
     .profile-button.blue:hover {
