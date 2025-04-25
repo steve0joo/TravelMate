@@ -2,50 +2,72 @@
 {% load static %}
 
 {% block content %}
-  <div style="
-    max-width: 420px;
-    margin: 60px auto;
-    background: #ffffff;
-    padding: 40px 30px;
-    border-radius: 24px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-    text-align: center;
-    animation: fadeIn 0.5s ease-out;
-  ">
-    <h2 style="color: #1d3c78; margin-bottom: 24px; font-weight: 700; font-size: 24px;">
-      Welcome, {{ user.username }}!
-    </h2>
+  <div class="profile-container">
+    <div class="profile-buttons">
+      <h2>Welcome, {{ user.username }}!</h2>
 
-    {% if user.bio %}
-      <p style="font-size: 15px; margin-bottom: 20px; color: #555;">
-        <strong>Bio:</strong> {{ user.bio }}
-      </p>
-    {% endif %}
+      <a href="{% url 'create_trip' %}" class="profile-button blue">Add New Trip</a>
+      <a href="{% url 'trip_list' %}" class="profile-button blue">View My Trips</a>
+      <a href="{% url 'reset_user' %}" class="profile-button blue">Reset Account Info</a>
+      <a href="{% url 'spotlight' %}" class="profile-button green">🌟 Daily Destination Spotlight</a>
 
-    <a href="{% url 'create_trip' %}" class="profile-button blue">Add New Trip</a>
-    <a href="{% url 'trip_list' %}" class="profile-button blue">View My Trips</a>
-    <a href="{% url 'reset_user' %}" class="profile-button blue">Reset Account Info</a>  <!-- 👈 New link added -->
-    <a href="{% url 'spotlight' %}" class="profile-button green">
-      🌟 Daily Destination Spotlight
-    </a>
+      <div class="logout-link">
+        <a href="{% url 'logout' %}">Log out</a>
+      </div>
+    </div>
 
-    <div style="font-size: 14px; margin-top: 24px;">
-      <a href="{% url 'logout' %}" style="color: #2a7de1; text-decoration: none; font-weight: 500;">Log out</a>
+    <div class="recent-trips">
+      {% if recent_trips %}
+      <h3>Recent Trips</h3>
+      <ul class="recent-list">
+        {% for trip in recent_trips %}
+        <li>
+          <span class="trip-name">{{ trip.name }}</span>
+          <span class="trip-details">{{ trip.destination }}<br>
+          <small>({{ trip.start_date }} – {{ trip.end_date }})</small>
+          </span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="no-trips">You haven’t added any trips yet—start planning now!</p>
+      {% endif %}
     </div>
   </div>
 
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .profile-container {
+      display: flex;
+      max-width: 900px;
+      margin: 60px auto;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.5s ease-out;
+      overflow: hidden;
+    }
+    .profile-buttons, .recent-trips {
+      flex: 1;
+      padding: 40px 30px;
+    }
+
+    .profile-buttons {
+      text-align: center;
+      border-right: 1px solid #eee;
+    }
+    .profile-buttons h2 {
+      color: #1d3c78;
+      margin-bottom: 24px;
+      font-weight: 700;
+      font-size: 28px;
     }
 
     .profile-button {
       display: block;
       margin: 14px auto;
-      padding: 12px 20px;
+      padding: 14px 22px;
       border-radius: 25px;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
       text-decoration: none;
       transition: background-color 0.3s ease, transform 0.2s ease;
@@ -56,23 +78,56 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 14px rgba(0,0,0,0.1);
     }
+    .profile-button.blue { background-color: #2a7de1; color: white; }
+    .profile-button.blue:hover { background-color: #1c5cbf; }
+    .profile-button.green { background-color: #23ceb1; color: white; }
+    .profile-button.green:hover { background-color: #1fa38d; }
 
-    .profile-button.blue {
-      background-color: #2a7de1;
-      color: white;
+    .logout-link {
+      font-size: 14px;
+      margin-top: 24px;
     }
 
-    .profile-button.green {
-      background-color: #1adaba;
-      color: white;
+    .logout-link a {
+      color: #2a7de1;
+      text-decoration: none;
+      font-weight: 500;
     }
 
-    .profile-button.green:hover {
-      background-color: #1fa38d;
+    .recent-trips {
+      text-align: left;
+      background: #f9fafd;
+    }
+    .recent-trips h3 {
+      color: #1d3c78;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    .recent-list {
+      list-style: none;
+      padding: 0;
+    }
+    .recent-list li {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    .trip-name {
+      font-weight: 600;
+      font-size: 18px;
+      display: block;
+      color: #333;
+    }
+    .trip-details {
+      color: #555;
+    }
+    .no-trips {
+      font-size: 16px;
+      color: #777;
     }
 
-    .profile-button.blue:hover {
-      background-color: #1c5cbf;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 {% endblock %}
