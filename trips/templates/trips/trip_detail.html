@@ -2,132 +2,179 @@
 {% load static %}
 
 {% block content %}
-<style>
-    .container {
-        max-width: 1100px;
-        margin: 40px auto;
-        padding: 0 20px;
-        animation: fadeIn 0.4s ease-out;
-    }
+    <style>
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            animation: fadeIn 0.4s ease-out;
+        }
 
-    .card {
-        background: #fff;
-        padding: 30px 25px;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-        margin-bottom: 40px;
-    }
+        .card {
+            padding: 30px 25px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
 
-    h2, h3 {
-        color: #1d3c78;
-    }
+        h2, h3 {
+            color: #1d3c78;
+        }
 
-    .trip-header img {
-        width: 100%;
-        border-radius: 16px;
-        margin-bottom: 20px;
-        max-height: 400px;
-        object-fit: cover;
-    }
+        .trip-header img {
+            width: 100%;
+            height: 80%;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            object-fit: cover;
+        }
 
-    .trip-header p {
-        font-weight: 600;
-        color: #444;
-        margin: 0;
-    }
+        .trip-header p {
+            font-weight: 600;
+            color: #444;
+            margin: 0;
+        }
 
-    .trip-header .dates {
-        color: #777;
-        margin-bottom: 20px;
-    }
+        .trip-header .dates {
+            color: #777;
+            margin-bottom: 20px;
+        }
 
-    .weather-grid {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
+        .weather-card {
+            background: #fff;
+            padding: 15px 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
 
-    .day-card {
-        flex: 1 1 120px;
-        text-align: center;
-    }
+        .weather-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
 
-    .place-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
+        .info-card {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
 
-    .place-card a {
-        font-weight: 600;
-        color: #1d3c78;
-        text-decoration: none;
-    }
+        .card-item {
+            flex: 1 1 300px;
+            background: #fff;
+            padding: 15px 25px;
+            padding-top: 5px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            min-height: 180px;
+        }
 
-    .place-card span {
-        font-size: 14px;
-        color: #444;
-    }
+        .day-card {
+            flex: 1 1 120px;
+            text-align: center;
+        }
 
-    .trip-actions {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
-        margin-top: 20px;
-    }
+        .place-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
 
-    .button-link {
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.3s ease;
-        margin: 6px;
-    }
+        .place-card a {
+            font-weight: 600;
+            color: #1d3c78;
+            text-decoration: none;
+            white-space: normal;
+            word-break: break-word;
+        }
 
-    .btn-blue {
-        background: #2a7de1;
-        color: white;
-    }
+        .place-divider {
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+            margin: 10px 0;
+            width: 100%;
+        }
 
-    .btn-blue:hover {
-        background: #1c5cbf;
-    }
+        .place-card span {
+            font-size: 14px;
+            color: #444;
+        }
 
-    .btn-green {
-        background: #00c9a7;
-        color: white;
-    }
+        .trip-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
 
-    .btn-green:hover {
-        background: #009e85;
-    }
+        .button-link {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 6px;
+        }
 
-    .btn-red {
-        background: #ffe0e0;
-        color: #b80000;
-        font-weight: 600;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 25px;
-        cursor: pointer;
-    }
+        .btn-blue {
+            background: #2a7de1;
+            color: white;
+        }
 
-    .btn-red:hover {
-        background: #ffbfbf;
-    }
+        .btn-blue:hover {
+            background: #1c5cbf;
+        }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(15px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
+        .btn-green {
+            background: #00c9a7;
+            color: white;
+        }
 
-<div class="container">
+        .btn-green:hover {
+            background: #009e85;
+        }
+
+        .btn-red {
+            background-color: #d9534f;
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-red:hover {
+            background-color: #c9302c;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
     <div class="card trip-header" style="text-align: center;">
         {% if photo_url %}
             <img src="{{ photo_url }}" alt="Photo of {{ trip.destination }}">
@@ -138,37 +185,48 @@
     </div>
 
     {% if forecast %}
-    <div class="card">
-        <h3>Weather Forecast</h3>
-        <div class="weather-grid">
-            {% for day in forecast|slice:":3" %}
-            <div class="day-card">
-                <p style="font-weight:600;">{{ day.date|date:"M j" }}</p>
-                <p>{{ day.description }}</p>
-                <p>{{ day.min_temp|floatformat:0 }}°C – {{ day.max_temp|floatformat:0 }}°C</p>
-                <p style="font-style:italic;">{{ day.outfit }}</p>
+        <div class="weather-card">
+            <h3>Weather Forecast</h3>
+            <div class="weather-grid">
+                {% for day in forecast|slice:":3" %}
+                    <div class="day-card">
+                        <p style="font-weight:600;">{{ day.date|date:"M j" }}</p>
+                        <p>{{ day.description }}</p>
+                        <p>{{ day.min_temp|floatformat:0 }}°C – {{ day.max_temp|floatformat:0 }}°C</p>
+                        <p style="font-style:italic;">{{ day.outfit }}</p>
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+            <div class="trip-actions">
+                <a href="{% url 'weather' trip.id %}" class="button-link btn-blue">View Full Weather</a>
+            </div>
         </div>
-        <div class="trip-actions">
-            <a href="{% url 'weather' trip.id %}" class="button-link btn-blue">View Full Weather</a>
-        </div>
-    </div>
     {% endif %}
 
-    <div class="card">
-        <h3>Location Recommendations</h3>
-        {% if recommendations %}
-            {% for place in recommendations %}
-            <div class="place-card">
-                <a href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}" target="_blank">{{ place.name }}</a>
-                <span>⭐ {{ place.rating }}</span>
-            </div>
-            {% if not forloop.last %}<hr>{% endif %}
-            {% endfor %}
-        {% else %}
-            <p>No recommendations found.</p>
-        {% endif %}
+    <div class="info-card">
+        <div class="card-item">
+            <h3>Location Recommendations</h3>
+            {% if recommendations %}
+                {% for place in recommendations %}
+                    <div class="place-card">
+                        <a style="color: black; font-size: 15px" href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}"
+                           target="_blank">{{ place.name }}</a>
+                        <span>⭐ {{ place.rating }}</span>
+                    </div>
+                    {% if not forloop.last %}
+                        <hr class="place-divider">
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No recommendations found.</p>
+            {% endif %}
+        </div>
+        <div class="card-item">
+            <h3>Emergency</h3>
+        </div>
+        <div class="card-item">
+            <h3>Budget</h3>
+        </div>
     </div>
 
     <div class="trip-actions">
@@ -177,11 +235,10 @@
         <a href="{% url 'packing_list' trip.id %}" class="button-link btn-blue">View Packing List</a>
     </div>
 
-    <div class="card" style="text-align: center;">
+    <div style="align-items: center; justify-content: center; display: flex; padding: 30px 25px;">
         <form method="post" action="{% url 'delete_trip' trip.id %}">
             {% csrf_token %}
             <button type="submit" class="btn-red">Delete This Trip</button>
         </form>
     </div>
-</div>
 {% endblock %}

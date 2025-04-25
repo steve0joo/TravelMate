@@ -21,21 +21,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-
+            font-family: 'Segoe UI', sans-serif;
             transition: all 0.3s ease;
         }
 
         .header.shrink {
             width: 50%;
             min-width: 800px;
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-content: center;
-            width: 100%;
-            min-width: 450px;
         }
 
         .logo {
@@ -204,9 +196,8 @@
 </head>
 <body>
 <header class="header">
-    <div class="header-inner">
-        <a class="logo" href="{% url 'home' %}">
-            <img src="{% static 'img/logo.png' %}" alt="TravelMate" class = "logo-img"/>
+    <a class="logo" href="{% url 'home' %}">
+        <img src="{% static 'img/logo.png' %}" alt="TravelMate" class = "logo-img"/>
         <div class="nav-links" id="navLinks">
             {% if user.is_authenticated %}
                 <a class="headerButtons" href="{% url 'trip_list' %}"
@@ -218,7 +209,7 @@
                     New Trip
                 </a>
                 <a class="headerButtons" href="{% url 'reset_user' %}"
-                    style="margin-right: 20px; text-decoration: none; color: #333;">
+                   style="margin-right: 20px; text-decoration: none; color: #333;">
                     Profile
                 </a>
                 <a class="signOutButton" href="{% url 'logout' %}"
@@ -232,7 +223,6 @@
                 </a>
             {% endif %}
         </div>
-    </div>
 </header>
 <div class="container {% if request.path|slice:":13" == "/users/login" or request.path|slice:":13" == "/users/signup" %}auth-page{% endif %}">
     {% block content %}{% endblock %}
