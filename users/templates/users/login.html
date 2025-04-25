@@ -129,6 +129,10 @@
             Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
         </div>
 
+    <div class="footer-link" style="margin-top:10px;">
+  <a href="{% url 'password_reset' %}">Forgot your password?</a>
+</div>
+
         <div style="text-align:center; margin: 20px 0;">OR</div>
 
         <a href="{% provider_login_url 'google' %}" class="social-btn social-google">
