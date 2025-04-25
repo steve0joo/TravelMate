@@ -2,135 +2,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Create a Trip | TravelMate</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to bottom, #d0e9ff, #ffffff);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
-        }
+  <meta charset="UTF-8">
+  <title>Create a Trip | TravelMate</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #d0e9ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
 
-        .container {
-            width: 360px;
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 30px 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            z-index: 2;
-        }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 40px 30px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.5s ease-out;
+      transition: box-shadow 0.3s;
+    }
 
-        .container h2 {
-            text-align: center;
-            color: #1d3c78;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
+    .container:hover {
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.12);
+    }
 
-        .input-field {
-            border-radius: 30px;
-            padding: 14px;
-            width: 100%;
-            border: 1px solid #ccc;
-            margin-bottom: 15px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
+    h2 {
+      text-align: center;
+      color: #1d3c78;
+      margin-bottom: 28px;
+      font-weight: 700;
+      font-size: 26px;
+    }
 
-        .label {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 5px;
-            margin-top: 10px;
-            display: block;
-            color: #1d3c78;
-        }
+    .input-field,
+    select {
+      border-radius: 30px;
+      padding: 14px 16px;
+      width: 100%;
+      border: 1px solid #ccc;
+      margin-bottom: 18px;
+      font-size: 15px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
 
-        .btn {
-            background-color: #2a7de1;
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            padding: 14px;
-            width: 100%;
-            border-radius: 30px;
-            font-size: 16px;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
+    .input-field:focus,
+    select:focus {
+      outline: none;
+      border-color: #2a7de1;
+    }
 
-        .btn:hover {
-            background-color: #1c5cb3;
-        }
+    .label {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 6px;
+      margin-top: 14px;
+      display: block;
+      color: #1d3c78;
+    }
 
-        .footer-link {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-        }
+    .btn {
+      background-color: #2a7de1;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 14px;
+      width: 100%;
+      border-radius: 30px;
+      font-size: 16px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
 
-        .footer-link a {
-            color: #2a7de1;
-            text-decoration: none;
-        }
+    .btn:hover {
+      background-color: #1c5cb3;
+      transform: translateY(-2px);
+    }
 
-        .footer-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .footer-link {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .footer-link a {
+      color: #2a7de1;
+      text-decoration: none;
+    }
+
+    .footer-link a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Create a Trip</h2>
-    <form method="post">
-        {% csrf_token %}
+  <h2>Create a Trip</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Trip Name" class="input-field" required>
+    <input type="text" name="destination" placeholder="Destination" class="input-field" required>
 
-        <input type="text" name="name" placeholder="Trip Name" class="input-field" required>
-        <input type="text" name="destination" placeholder="Destination" class="input-field" required>
+    <label class="label">Start Date</label>
+    <input type="date" name="start_date" class="input-field" required>
 
-        <label class="label">Start Date</label>
-        <input type="date" name="start_date" class="input-field" required>
+    <label class="label">End Date</label>
+    <input type="date" name="end_date" class="input-field" required>
 
-        <label class="label">End Date</label>
-        <input type="date" name="end_date" class="input-field" required>
+    <label class="label">Trip Type</label>
+    <select name="trip_type" class="input-field" required>
+      <option value="">Select a type</option>
+      <option value="beach">Beach</option>
+      <option value="city">City</option>
+      <option value="hiking">Hiking</option>
+      <option value="business">Business</option>
+      <option value="snow">Snow / Ski</option>
+      <option value="other">Other</option>
+    </select>
 
-        <label class="label">Trip Type</label>
-        <select name="trip_type" class="input-field" required>
-            <option value="">Select a type</option>
-            <option value="beach">Beach</option>
-            <option value="city">City</option>
-            <option value="hiking">Hiking</option>
-            <option value="business">Business</option>
-            <option value="snow">Snow / Ski</option>
-            <option value="other">Other</option>
-        </select>
+    <button type="submit" class="btn">Save Trip</button>
+  </form>
 
-        <button type="submit" class="btn">Save Trip</button>
-    </form>
-
-    <div class="footer-link">
-        <a href="{% url 'trip_list' %}">Back to Trip List</a>
-    </div>
+  <div class="footer-link">
+    <a href="{% url 'trip_list' %}">Back to Trip List</a>
+  </div>
 </div>
 
 <script>
-    const startInput = document.querySelector('input[name="start_date"]');
-    const endInput = document.querySelector('input[name="end_date"]');
-
-    startInput.addEventListener("change", function () {
-        endInput.min = this.value;
-        if (endInput.value < this.value) {
-            endInput.value = this.value;
-        }
-    });
+  const startInput = document.querySelector('input[name="start_date"]');
+  const endInput = document.querySelector('input[name="end_date"]');
+  startInput.addEventListener("change", function () {
+    endInput.min = this.value;
+    if (endInput.value < this.value) {
+      endInput.value = this.value;
+    }
+  });
 </script>
 </body>
 </html>
