@@ -210,7 +210,7 @@
                 {% for place in recommendations %}
                     <div class="place-card">
                         <a style="color: black; font-size: 15px" href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}"
-                           target="_blank">{{ place.name }}</a>
+                           target="_blank">📍 {{ place.name }}</a>
                         <span>⭐ {{ place.rating }}</span>
                     </div>
                     {% if not forloop.last %}
