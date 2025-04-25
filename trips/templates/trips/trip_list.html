@@ -1,18 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
-    <div style="text-align: center;">
+{% block wrapper %}
+    <div style="text-align: center; padding: 20px 0">
+        <br>
         <h2 style="color: #1d3c78; margin-bottom: 30px; font-size: 28px; font-weight: 700;">My Trips</h2>
-
         <div class="trip-list">
             {% for trip in trips %}
                 <a href="{% url 'trip_detail' trip.id %}" class="trip-card-link">
                     <div class="trip-card">
-                        <div class="trip-title">{{ trip.name }}</div>
-                        <div class="trip-info">
-                            {{ trip.destination }}<br>
-                            {{ trip.start_date }} – {{ trip.end_date }}
+                        <div class="trip-top">
+                            <div class="trip-title">{{ trip.name }}</div>
+                            <div class="trip-middle">
+                                <img src="{% static 'img/airplane.png' %}" alt="airplane" class="plane-icon">
+                            </div>
+                            <div class="trip-destination">Destination: {{ trip.destination }}</div>
+                        </div>
+                        <div class="trip-divider"></div>
+                        <div class="trip-bottom">
+                            <span>{{ trip.start_date }}</span>
+                            <span>—</span>
+                            <span>{{ trip.end_date }}</span>
                         </div>
                     </div>
                 </a>
@@ -31,10 +39,10 @@
             text-decoration: none;
             color: white;
             transition: background 0.3s ease;">
-    ⬅ Back to Profile
+            ⬅ Back to Profile
         </a>
     </div>
-
+    <br>
     <style>
         .trip-card-link {
             text-decoration: none;
@@ -42,42 +50,75 @@
         }
 
         .trip-card {
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px auto;
-            background: linear-gradient(to right, #e3f2fd, #ffffff);
             max-width: 600px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s ease;
-            transform: perspective(1px) translateZ(0);
-        }
-
-        .trip-title {
-            font-weight: 700;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .trip-info {
-            color: #555;
-            font-size: 15px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
 
         .trip-card:hover {
-            transform: scale(1.03) translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-            background-position: right center;
-            background: linear-gradient(to right, #dbefff, #ffffff);
-            animation: pulse 1s ease-in-out infinite alternate;
+            transform: scale(1.02);
         }
 
-        @keyframes pulse {
-            from {
-                box-shadow: 0 0 8px rgba(42, 125, 225, 0.3);
-            }
-            to {
-                box-shadow: 0 0 14px rgba(42, 125, 225, 0.5);
-            }
+        .trip-top {
+            padding: 20px 24px;
+            background: linear-gradient(to right, #e3f2fd, #d0e9ff);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+        }
+
+        .trip-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1d3c78;
+            text-align: left;
+        }
+
+        .trip-middle {
+            flex: 0 0 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .trip-destination {
+            flex: 1;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2a7de1;
+            text-align: right;
+        }
+
+        .trip-divider {
+            border-top: 1px dashed #bbb;
+            margin: 0 20px;
+        }
+
+        .trip-bottom {
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #555;
+            background-color: #f9fcff;
+        }
+
+        .trip-bottom span {
+            display: inline-block;
+        }
+
+        .plane-icon {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            margin: 0 12px;
         }
     </style>
 {% endblock %}
