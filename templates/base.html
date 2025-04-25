@@ -224,10 +224,11 @@
             {% endif %}
         </div>
 </header>
+{% block wrapper %}
 <div class="container {% if request.path|slice:":13" == "/users/login" or request.path|slice:":13" == "/users/signup" %}auth-page{% endif %}">
     {% block content %}{% endblock %}
 </div>
-
+{% endblock %}
 <!-- 🔵 Floating Feedback Button -->
 <a href="{% url 'leave_feedback' %}" id="feedback-button">💬 Feedback</a>
 <footer style="background-color: #98c1d9; color: #ccc; padding: 60px 0 40px; font-size: 15px; line-height: 1.7;">
