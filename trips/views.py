@@ -114,6 +114,8 @@ def trip_list(request):
 def trip_detail(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
     photo_url = None
+    budget_tip = "Budgeting tip not available."
+    emergency_info = "Emergency information not available."
 
     try:
         response = requests.get(
@@ -128,12 +130,14 @@ def trip_detail(request, trip_id):
         print(f"Unsplash API error: {e}")
 
     recommendations = []
+
     try:
         recommendations = get_place_recommendations(trip.destination, trip.trip_type, max_results=3)
     except Exception as e:
         print(f"Google Places API error: {e}")
 
     forecast = []
+
     try:
         client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
@@ -158,7 +162,33 @@ def trip_detail(request, trip_id):
 
         budget_tip = response.choices[0].message.content.strip()
     except Exception as e:
-        print("OpenAI budgeting tip error:", e)
+        print("OpenAI budgeting help error:", e)
+
+    try:
+        emergency_prompt = (
+            f"List emergency numbers for police, ambulance, and fire services in {trip.destination}. "
+            f"Also, give one quick health tip for travelers (like nearest hospital, travel insurance advice). "
+            f"Format like this: \n"
+            f"🚨 Police: \n🚑 Ambulance: \n🔥 Fire: \n💡 Health Tip: \n"
+        )
+
+        emergency_system_msg = (
+            "You are a travel assistant providing emergency information. Reply using the specified format. Be concise."
+        )
+
+        emergency_response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": emergency_system_msg},
+                {"role": "user", "content": emergency_prompt}
+            ],
+            max_tokens=200,
+            temperature=0.5,
+        )
+
+        emergency_info = emergency_response.choices[0].message.content.strip()
+    except Exception as e:
+        print("OpenAI emergency info error:", e)
 
     return render(request, 'trips/trip_detail.html', {
         'trip': trip,
@@ -166,6 +196,7 @@ def trip_detail(request, trip_id):
         'forecast': forecast,
         'recommendations': recommendations,
         'budget_tip': budget_tip,
+        'emergency_info': emergency_info,
     })
 
 

@@ -16,13 +16,22 @@
             margin-bottom: 40px;
         }
 
-        h2, h3 {
+        h1 {
+            font-size: 50px;
+            color: #1d3c78;
+        }
+
+        h2 {
+            font-size: 25px;
+        }
+
+        h3 {
             color: #1d3c78;
         }
 
         .trip-header img {
             width: 100%;
-            height: 80%;
+            height: 90%;
             border-radius: 16px;
             margin-bottom: 20px;
             max-height: 400px;
@@ -179,8 +188,8 @@
         {% if photo_url %}
             <img src="{{ photo_url }}" alt="Photo of {{ trip.destination }}">
         {% endif %}
-        <h2>{{ trip.name }}</h2>
-        <p>{{ trip.destination }}</p>
+        <h1>{{ trip.name }}</h1>
+        <h2>{{ trip.destination }}</h2>
         <p class="dates">{{ trip.start_date }} — {{ trip.end_date }}</p>
     </div>
 
@@ -223,7 +232,8 @@
             {% endif %}
         </div>
         <div class="card-item">
-            <h3>Emergency</h3>
+            <h3>Emergency Information</h3>
+            <p>{{ emergency_info|linebreaksbr }}</p>
         </div>
         <div class="card-item">
             <h3>Budgeting Help</h3>
