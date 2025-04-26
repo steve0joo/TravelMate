@@ -139,6 +139,29 @@ def trip_detail(request, trip_id):
     forecast = []
 
     try:
+        lat, lon = geocode(trip.destination)
+        if lat is not None:
+            data = fetch_forecast(lat, lon)
+            daily = data.get('daily', {})
+            dates = daily.get('time', [])
+            max_temps = daily.get('temperature_2m_max', [])
+            min_temps = daily.get('temperature_2m_min', [])
+            codes = daily.get('weathercode', [])
+
+            for d, tmax, tmin, code in zip(dates, max_temps, min_temps, codes):
+                day_date = date.fromisoformat(d)
+                if trip.start_date <= day_date <= trip.end_date:
+                    forecast.append({
+                        'date': day_date,
+                        'min_temp': tmin,
+                        'max_temp': tmax,
+                        'description': code_to_description(code),
+                        'outfit': suggest_outfit(tmax),
+                    })
+    except Exception as e:
+        # fail silently if something goes wrong
+        print("Open‑Meteo error:", e)
+    try:
         client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
         prompt = (
