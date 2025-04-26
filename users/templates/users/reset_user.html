@@ -15,10 +15,14 @@
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         animation: fadeIn 0.4s ease-out;
-        font-family: inherit;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     ">
         <h2 style="color: #1d3c78; font-size: 24px; font-weight: 600; margin-bottom: 30px; text-align: center;">
-            Reset Your Account
+            {% if can_change_password %}
+                Reset Your Account
+            {% else %}
+                Change Your Username
+            {% endif %}
         </h2>
 
         <form method="POST">

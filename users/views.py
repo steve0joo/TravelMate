@@ -9,6 +9,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from .forms import UserResetForm, CustomPasswordChangeForm
 from allauth.socialaccount.models import SocialAccount
+from trips.models import Trip
 
 @login_required
 def reset_user_view(request):
@@ -40,8 +41,6 @@ def reset_user_view(request):
         'is_social_user': is_social_user,
         'can_change_password': can_change_password,
     })
-
-
 
 def signup_view(request):
     if request.method == 'POST':
@@ -77,4 +76,15 @@ def spotlight_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, 'users/profile.html', {'user': request.user})
+    recent_trips = (
+        Trip.objects
+            .filter(user=request.user)
+            .order_by('-start_date')
+            [:3]
+    )
+
+    context = {
+        'recent_trips': recent_trips,
+    }
+
+    return render(request, 'users/profile.html', context)
