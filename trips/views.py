@@ -25,6 +25,7 @@ from openai import OpenAI
 import os
 import re
 
+
 def share_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id)
 
@@ -118,7 +119,7 @@ def trip_detail(request, trip_id):
         response = requests.get(
             'https://api.unsplash.com/search/photos',
             params={'query': trip.destination, 'per_page': 1, 'orientation': 'landscape'},
-            headers={'Authorization': 'Client-ID gR0mr2UCMNC_f50G9cuFxHBR38lI0Wpfrxt2ZFhhfGA'}  # ← insert your key here
+            headers={'Authorization': 'Client-ID gR0mr2UCMNC_f50G9cuFxHBR38lI0Wpfrxt2ZFhhfGA'}
         )
         data = response.json()
         if data.get('results'):
@@ -134,33 +135,37 @@ def trip_detail(request, trip_id):
 
     forecast = []
     try:
-        lat, lon = geocode(trip.destination)
-        if lat is not None:
-            data = fetch_forecast(lat, lon)
-            daily = data.get('daily', {})
-            dates = daily.get('time', [])
-            max_temps = daily.get('temperature_2m_max', [])
-            min_temps = daily.get('temperature_2m_min', [])
-            codes = daily.get('weathercode', [])
+        client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
-            for d, tmax, tmin, code in zip(dates, max_temps, min_temps, codes):
-                day_date = date.fromisoformat(d)
-                if trip.start_date <= day_date <= trip.end_date:
-                    forecast.append({
-                        'date': day_date,
-                        'min_temp': tmin,
-                        'max_temp': tmax,
-                        'description': code_to_description(code),
-                        'outfit': suggest_outfit(tmax),
-                    })
+        prompt = (
+            f"Give one short practical budgeting tip for a traveler visiting {trip.destination} "
+            f"for a {trip.trip_type} trip. Limit the tip to 2 sentences."
+        )
+
+        system_msg = (
+            "You are a helpful travel budgeting assistant. Respond with only one short practical tip (maximum 2 sentences)."
+        )
+
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=100,
+            temperature=0.6,
+        )
+
+        budget_tip = response.choices[0].message.content.strip()
     except Exception as e:
-        # fail silently if something goes wrong
-        print("Open‑Meteo error:", e)
+        print("OpenAI budgeting tip error:", e)
+
     return render(request, 'trips/trip_detail.html', {
         'trip': trip,
         'photo_url': photo_url,
         'forecast': forecast,
         'recommendations': recommendations,
+        'budget_tip': budget_tip,
     })
 
 

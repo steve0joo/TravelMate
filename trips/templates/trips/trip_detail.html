@@ -209,7 +209,8 @@
             {% if recommendations %}
                 {% for place in recommendations %}
                     <div class="place-card">
-                        <a style="color: black; font-size: 15px" href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}"
+                        <a style="color: black; font-size: 15px"
+                           href="https://www.google.com/maps/search/?api=1&query={{ place.name|urlencode }}"
                            target="_blank">📍 {{ place.name }}</a>
                         <span>⭐ {{ place.rating }}</span>
                     </div>
@@ -225,7 +226,8 @@
             <h3>Emergency</h3>
         </div>
         <div class="card-item">
-            <h3>Budget</h3>
+            <h3>Budgeting Help</h3>
+            <p>: {{ budget_tip }}</p>
         </div>
     </div>
 
