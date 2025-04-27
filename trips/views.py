@@ -189,7 +189,7 @@ def trip_detail(request, trip_id):
 
     try:
         emergency_prompt = (
-            f"List emergency numbers for police, ambulance, and fire services in {trip.destination}. "
+            f"List local emergency phone numbers for each of these items - police, ambulance, and fire services - in {trip.destination}. "
             f"Also, give one quick health tip for travelers (like nearest hospital, travel insurance advice). "
             f"Format like this: \n"
             f"🚨 Police: \n🚑 Ambulance: \n🔥 Fire: \n💡 Health Tip: \n"
