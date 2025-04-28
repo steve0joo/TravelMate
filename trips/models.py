@@ -49,3 +49,16 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback from {self.user.username} at {self.created_at}"
+
+class Stop(models.Model):
+    trip       = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='stops')
+    name       = models.CharField(max_length=100)            # e.g. “Paris”
+    arrival    = models.DateField(null=True, blank=True)
+    departure  = models.DateField(null=True, blank=True)
+    order      = models.PositiveIntegerField(default=0)      # sequence within the trip
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.name} ({self.arrival}–{self.departure})"

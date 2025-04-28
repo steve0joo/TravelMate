@@ -25,6 +25,10 @@ from openai import OpenAI
 import os
 import re
 
+from django.forms import modelformset_factory
+from django.db import models
+from .models import Trip, Stop, PackingItem
+
 
 def share_trip(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id)
@@ -113,6 +117,69 @@ def trip_list(request):
 @login_required
 def trip_detail(request, trip_id):
     trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+
+    if request.method == 'POST' and 'delete_stop' in request.POST:
+        stop_id = request.POST.get('delete_stop')
+        Stop.objects.filter(id=stop_id, trip=trip).delete()
+        return redirect('trip_detail', trip_id=trip.id)
+
+    # ——— Handle new‐stop form post ———
+    if request.method == 'POST' and 'new_stop' in request.POST:
+        name = request.POST.get('new_stop', '').strip()
+        if name:
+            last_order = trip.stops.aggregate(max_order=models.Max('order'))['max_order'] or 0
+            Stop.objects.create(trip=trip, name=name, order=last_order + 1)
+        return redirect('trip_detail', trip_id=trip.id)
+
+    # ——— Build stops_data with current weather & photo ———
+    stops_data = []
+    for stop in trip.stops.all():
+        photo_url = None
+        weather = None
+
+        # Geocode
+        lat, lon = geocode(stop.name)
+        if lat is not None:
+            # Fetch current weather
+            try:
+                resp = requests.get(
+                    'https://api.open-meteo.com/v1/forecast',
+                    params={
+                        'latitude': lat,
+                        'longitude': lon,
+                        'current_weather': True,
+                        'timezone': 'auto'
+                    },
+                    timeout=5
+                )
+                cw = resp.json().get('current_weather', {})
+                if cw:
+                    weather = {
+                        'temp': cw['temperature'],
+                        'description': code_to_description(cw['weathercode'])
+                    }
+            except:
+                pass
+
+            # Fetch a photo
+            try:
+                unsplash = requests.get(
+                    'https://api.unsplash.com/search/photos',
+                    params={'query': stop.name, 'per_page': 1},
+                    headers={'Authorization': 'Client-ID gR0mr2UCMNC_f50G9cuFxHBR38lI0Wpfrxt2ZFhhfGA'},
+                    timeout=5
+                ).json()
+                if unsplash.get('results'):
+                    photo_url = unsplash['results'][0]['urls']['regular']
+            except:
+                pass
+
+        stops_data.append({
+            'id': stop.id,  # ← add this!
+            'name': stop.name,
+            'weather': weather,
+            'photo_url': photo_url,
+        })
     photo_url = None
     budget_tip = "Budgeting tip not available."
     emergency_info = "Emergency information not available."
@@ -220,6 +287,7 @@ def trip_detail(request, trip_id):
         'recommendations': recommendations,
         'budget_tip': budget_tip,
         'emergency_info': emergency_info,
+        'stops_data': stops_data,
     })
 
 
