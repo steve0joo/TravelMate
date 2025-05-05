@@ -41,6 +41,8 @@ $ python manage.py runserver
 ```
 
 #### Contributers
+@steve0joo
+
 @DavidymLee
 
 @IronhawkReigns
