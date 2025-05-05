@@ -32,7 +32,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['travelmate-oyfa.onrender.com']
+ALLOWED_HOSTS = ['travelmate-shol.onrender.com']
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
