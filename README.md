@@ -21,6 +21,8 @@ $ touch .env
 $ SECRET_KEY=your_django_secret_key_here
 $ VISUAL_CROSSING_API_KEY=your_api_key_here
 $ EMAIL_HOST_PASSWORD=your_email_password_here
+$ UNSPLASH_API_KEY=your_api_key_here
+$ GOOGLE_PLACES_API_KEY=your_api_key_here
 $ OPENAI_API_KEY=your_openai_api_key_here
 ```
 
