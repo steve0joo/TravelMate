@@ -15,7 +15,7 @@ customize packing lists, making their travel experience smoother and more enjoya
 $ touch .env
 ```
 
-### Add all required keys
+### Add all required keys on .env
 
 ```
 $ SECRET_KEY=your_django_secret_key_here
@@ -24,8 +24,11 @@ $ EMAIL_HOST_PASSWORD=your_email_password_here
 $ OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-### Contributers
+#### Contributers
 @DavidymLee
+
 @IronhawkReigns
+
 @JackWachter
+
 @philharmoniic
