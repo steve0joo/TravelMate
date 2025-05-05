@@ -1,4 +1,6 @@
 # TravelMate
+<img src="./landing-page.png" alt="landing-page" />
+
 ## CS 2340 (Object and Design) Final Project
 
 This website is built using Django Web Framework.
