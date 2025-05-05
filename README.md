@@ -23,3 +23,9 @@ $ VISUAL_CROSSING_API_KEY=your_api_key_here
 $ EMAIL_HOST_PASSWORD=your_email_password_here
 $ OPENAI_API_KEY=your_openai_api_key_here
 ```
+
+### Contributers
+@DavidymLee
+@IronhawkReigns
+@JackWachter
+@philharmoniic
