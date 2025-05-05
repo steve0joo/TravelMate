@@ -32,7 +32,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['travelmate-oyfa.onrender.com']
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
@@ -109,10 +109,7 @@ WSGI_APPLICATION = 'travelmate.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
 
 
@@ -180,3 +177,5 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 GOOGLE_PLACES_API_KEY = config('GOOGLE_PLACES_API_KEY')
 OPENAI_API_KEY = config("OPENAI_API_KEY")
 UNSPLASH_API_KEY = config('UNSPLASH_API_KEY')
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
