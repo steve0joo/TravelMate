@@ -166,7 +166,7 @@ def trip_detail(request, trip_id):
                 unsplash = requests.get(
                     'https://api.unsplash.com/search/photos',
                     params={'query': stop.name, 'per_page': 1},
-                    headers={'Authorization': 'Client-ID gR0mr2UCMNC_f50G9cuFxHBR38lI0Wpfrxt2ZFhhfGA'},
+                    headers={'Authorization': f'Client-ID {settings.UNSPLASH_API_KEY}'},
                     timeout=5
                 ).json()
                 if unsplash.get('results'):
@@ -188,7 +188,7 @@ def trip_detail(request, trip_id):
         response = requests.get(
             'https://api.unsplash.com/search/photos',
             params={'query': trip.destination, 'per_page': 1, 'orientation': 'landscape'},
-            headers={'Authorization': 'Client-ID gR0mr2UCMNC_f50G9cuFxHBR38lI0Wpfrxt2ZFhhfGA'}
+            headers={'Authorization': f'Client-ID {settings.UNSPLASH_API_KEY}'}
         )
         data = response.json()
         if data.get('results'):
